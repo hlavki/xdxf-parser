@@ -4,6 +4,8 @@ import eu.hlavki.xdxf.parser.data.XDXFDictionary;
 import eu.hlavki.xdxf.parser.event.XDXFArticleEvent;
 import eu.hlavki.xdxf.parser.event.XDXFDictionaryEvent;
 import eu.hlavki.xdxf.parser.event.XDXFEventListener;
+import java.io.IOException;
+import java.io.InputStream;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -22,14 +24,15 @@ public class XdxfParserTest {
 
     @Test
     public void parseSampleDictionary() {
+        InputStream in = null;
         try {
             XDXFParser parser = new DefaultXDXFParser();
             DictionaryListener listener = new DictionaryListener();
-            parser.addSearchEventListener(listener);
-            XDXFContext ctx = new XDXFContext();
+            parser.addXDXFEventListener(listener);
             ExecuteTimer timer = new ExecuteTimer();
             timer.start();
-            parser.parse(ctx, XdxfParserTest.class.getResourceAsStream("/test-dict.xdxf"));
+            in = getClass().getResourceAsStream("/test-dict.xdxf");
+            parser.parse(in);
             timer.stop();
             System.out.println("Articles count: " + listener.getArticleCount());
             System.out.println("Parsing time: " + timer);
@@ -43,6 +46,14 @@ public class XdxfParserTest {
         } catch (ParseException e) {
             e.printStackTrace();
             fail();
+        } finally {
+            if (in != null) {
+                try {
+                    in.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 
