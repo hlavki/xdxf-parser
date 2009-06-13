@@ -21,10 +21,8 @@
 package eu.hlavki.xdxf.parser.element;
 
 import eu.hlavki.xdxf.parser.data.XDXFDictionary;
-import static eu.hlavki.xdxf.parser.XDXFElement.*;
 import eu.hlavki.xdxf.parser.ParseException;
 import eu.hlavki.xdxf.parser.ParserUtil;
-import eu.hlavki.xdxf.parser.InvalidElementException;
 import eu.hlavki.xdxf.parser.data.XDXFFormat;
 import javax.xml.stream.XMLStreamReader;
 
