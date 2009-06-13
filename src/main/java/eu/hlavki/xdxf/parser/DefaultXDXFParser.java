@@ -75,6 +75,7 @@ public class DefaultXDXFParser implements XDXFParser {
         xmlif.setProperty(XMLInputFactory.IS_SUPPORTING_EXTERNAL_ENTITIES, Boolean.FALSE);
         //set the IS_COALESCING property to true , if application desires to
         //get whole text data as one event.
+        xmlif.setProperty(XMLInputFactory.SUPPORT_DTD, Boolean.FALSE);
         xmlif.setProperty(XMLInputFactory.IS_COALESCING, Boolean.FALSE);
         try {
             XMLStreamReader xmlr = xmlif.createXMLStreamReader(in);
