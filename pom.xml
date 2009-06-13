@@ -19,16 +19,17 @@
     </scm>
     <repositories>
         <repository>
-            <id>datalan-repo</id>
+            <id>datalan-ext-repo</id>
             <name>Datalan's proxy repository</name>
             <layout>default</layout>
-            <url>http://calculon.datalan.sk/artifactory/repo</url>
+            <url>https://mvn.datalan.sk/artifactory/libs-releases-local</url>
             <snapshots>
                 <enabled>false</enabled>
             </snapshots>
         </repository>
     </repositories>
-    <distributionManagement>
+    <!-- FIXME: update when distribution management will be known -->
+    <!--distributionManagement>
         <repository>
             <id>datalan-releases</id>
             <name>Datalan's distribution repository</name>
@@ -40,7 +41,7 @@
             <url>http://calculon.datalan.sk/artifactory/libs-snapshots-local@repo</url>
             <uniqueVersion>true</uniqueVersion>
         </snapshotRepository>
-    </distributionManagement>
+    </distributionManagement-->
     <dependencies>
         <!-- set your dependencies here -->
         <dependency>
