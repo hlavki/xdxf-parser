@@ -51,9 +51,9 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>com.sun.sjsxp</groupId>
-            <artifactId>sjsxp</artifactId>
-            <version>1.0.1</version>
+            <groupId>org.codehaus.woodstox</groupId>
+            <artifactId>woodstox-core-lgpl</artifactId>
+            <version>4.0.5</version>
         </dependency>
         <dependency>
             <groupId>sk.datalan.util.timer</groupId>
@@ -81,5 +81,7 @@
         </plugins>
     </build>
 </project>
+
+
 
 
