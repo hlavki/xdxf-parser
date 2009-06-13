@@ -8,20 +8,20 @@ package eu.hlavki.xdxf.parser.data;
  *
  * @author hlavki
  */
-public class XdxfArticle {
+public class XDXFArticle {
 
-    private XdxfFormat format;
+    private XDXFFormat format;
     private String key;
     private String translation;
 
-    public XdxfArticle() {
+    public XDXFArticle() {
     }
 
-    public XdxfFormat getFormat() {
+    public XDXFFormat getFormat() {
         return format;
     }
 
-    public void setFormat(XdxfFormat format) {
+    public void setFormat(XDXFFormat format) {
         this.format = format;
     }
 

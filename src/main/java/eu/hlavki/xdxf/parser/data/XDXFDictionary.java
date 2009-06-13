@@ -8,15 +8,15 @@ package eu.hlavki.xdxf.parser.data;
  *
  * @author hlavki
  */
-public class XdxfDictionary {
+public class XDXFDictionary {
 
     private final String srcLanguage;
     private final String targetLanguage;
-    private final XdxfFormat format;
+    private final XDXFFormat format;
     private String fullName;
     private String description;
 
-    public XdxfDictionary(String srcLanguage, String targetanguage, XdxfFormat format) {
+    public XDXFDictionary(String srcLanguage, String targetanguage, XDXFFormat format) {
         this.srcLanguage = srcLanguage;
         this.targetLanguage = targetanguage;
         this.format = format;
@@ -30,7 +30,7 @@ public class XdxfDictionary {
         return targetLanguage;
     }
 
-    public XdxfFormat getFormat() {
+    public XDXFFormat getFormat() {
         return format;
     }
 

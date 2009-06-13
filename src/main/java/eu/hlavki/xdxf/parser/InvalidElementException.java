@@ -21,7 +21,7 @@ public class InvalidElementException extends ParseException {
         super("Unknown " + type + " element " + foundEl + " found but expected " + expectedEl);
     }
 
-    public InvalidElementException(ElementType type, String foundEl, XdxfElement expectedEl) {
+    public InvalidElementException(ElementType type, String foundEl, XDXFElement expectedEl) {
         super("Unknown " + type + " element " + foundEl + " found but expected " + expectedEl.toString());
     }
 }

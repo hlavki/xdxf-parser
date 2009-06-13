@@ -4,15 +4,15 @@
  */
 package eu.hlavki.xdxf.parser;
 
-import eu.hlavki.xdxf.parser.data.XdxfArticle;
-import eu.hlavki.xdxf.parser.data.XdxfDictionary;
-import eu.hlavki.xdxf.parser.element.XdxfArticleElementParser;
-import eu.hlavki.xdxf.parser.element.XdxfDescriptionElementParser;
-import eu.hlavki.xdxf.parser.element.XdxfElementParser;
-import eu.hlavki.xdxf.parser.element.XdxfFullNameElementParser;
-import eu.hlavki.xdxf.parser.events.XdxfArticleEvent;
-import eu.hlavki.xdxf.parser.events.XdxfDictionaryEvent;
-import eu.hlavki.xdxf.parser.events.XdxfEventListener;
+import eu.hlavki.xdxf.parser.data.XDXFArticle;
+import eu.hlavki.xdxf.parser.data.XDXFDictionary;
+import eu.hlavki.xdxf.parser.element.XDXFArticleElementParser;
+import eu.hlavki.xdxf.parser.element.XDXFDescriptionElementParser;
+import eu.hlavki.xdxf.parser.element.XDXFElementParser;
+import eu.hlavki.xdxf.parser.element.XDXFFullNameElementParser;
+import eu.hlavki.xdxf.parser.event.XDXFArticleEvent;
+import eu.hlavki.xdxf.parser.event.XDXFDictionaryEvent;
+import eu.hlavki.xdxf.parser.event.XDXFEventListener;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -29,16 +29,16 @@ import javax.xml.stream.XMLStreamReader;
  *
  * @author hlavki
  */
-public class DefaultXdxfParser implements XdxfParser {
+public class DefaultXDXFParser implements XDXFParser {
 
-    private static final Logger log = Logger.getLogger(DefaultXdxfParser.class.getName());
-    private List<XdxfEventListener> xdxfEventListeners;
+    private static final Logger log = Logger.getLogger(DefaultXDXFParser.class.getName());
+    private List<XDXFEventListener> xdxfEventListeners;
 
-    public DefaultXdxfParser() {
-        xdxfEventListeners = new ArrayList<XdxfEventListener>(3);
+    public DefaultXDXFParser() {
+        xdxfEventListeners = new ArrayList<XDXFEventListener>(3);
     }
 
-    public void parse(XdxfContext ctx, File file) throws ParseException {
+    public void parse(XDXFContext ctx, File file) throws ParseException {
         try {
             parse(ctx, new FileInputStream(file));
         } catch (FileNotFoundException e) {
@@ -46,7 +46,7 @@ public class DefaultXdxfParser implements XdxfParser {
         }
     }
 
-    public void parse(XdxfContext ctx, InputStream in) throws ParseException {
+    public void parse(XDXFContext ctx, InputStream in) throws ParseException {
         XMLInputFactory xmlif = null;
         try {
             xmlif = XMLInputFactory.newInstance();
@@ -63,39 +63,39 @@ public class DefaultXdxfParser implements XdxfParser {
             XMLStreamReader xmlr = xmlif.createXMLStreamReader(in);
             if (xmlr.hasNext()) {
                 xmlr.next();
-                ParserUtil.checkStartElement(xmlr, XdxfElement.XDXF);
-                XdxfDictionary dict = new XdxfElementParser().parseElement(xmlr);
+                ParserUtil.checkStartElement(xmlr, XDXFElement.XDXF);
+                XDXFDictionary dict = new XDXFElementParser().parseElement(xmlr);
                 fireXdxfDictionaryEvent(dict);
                 ctx.setDictionary(dict);
                 while (xmlr.hasNext()) {
                     xmlr.next();
                     if (xmlr.getEventType() == XMLStreamConstants.START_ELEMENT) {
-                        XdxfElement el = XdxfElement.fromName(xmlr.getName());
+                        XDXFElement el = XDXFElement.fromName(xmlr.getName());
                         switch (el) {
                             case XDXF_FULL_NAME:
-                                ParserUtil.checkStartElement(xmlr, XdxfElement.XDXF_FULL_NAME);
-                                String fullName = new XdxfFullNameElementParser().parseElement(xmlr);
+                                ParserUtil.checkStartElement(xmlr, XDXFElement.XDXF_FULL_NAME);
+                                String fullName = new XDXFFullNameElementParser().parseElement(xmlr);
                                 dict.setFullName(fullName);
-                                ParserUtil.checkEndElement(xmlr, XdxfElement.XDXF_FULL_NAME);
+                                ParserUtil.checkEndElement(xmlr, XDXFElement.XDXF_FULL_NAME);
                                 fireXdxfDictionaryChangeEvent(dict);
                                 break;
                             case XDXF_DESCRIPTION:
-                                ParserUtil.checkStartElement(xmlr, XdxfElement.XDXF_DESCRIPTION);
-                                String desc = new XdxfDescriptionElementParser().parseElement(xmlr);
+                                ParserUtil.checkStartElement(xmlr, XDXFElement.XDXF_DESCRIPTION);
+                                String desc = new XDXFDescriptionElementParser().parseElement(xmlr);
                                 dict.setDescription(desc);
-                                ParserUtil.checkEndElement(xmlr, XdxfElement.XDXF_DESCRIPTION);
+                                ParserUtil.checkEndElement(xmlr, XDXFElement.XDXF_DESCRIPTION);
                                 fireXdxfDictionaryChangeEvent(dict);
                                 break;
                             case ARTICLE:
-                                ParserUtil.checkStartElement(xmlr, XdxfElement.ARTICLE);
-                                XdxfArticle article = new XdxfArticleElementParser().parseElement(xmlr);
-                                ParserUtil.checkEndElement(xmlr, XdxfElement.ARTICLE);
+                                ParserUtil.checkStartElement(xmlr, XDXFElement.ARTICLE);
+                                XDXFArticle article = new XDXFArticleElementParser().parseElement(xmlr);
+                                ParserUtil.checkEndElement(xmlr, XDXFElement.ARTICLE);
                                 fireXdxfArticleEvent(article);
                                 break;
                             case XDXF:
                                 break;
                         }
-                    } else if (ParserUtil.checkFor(XMLStreamConstants.END_ELEMENT, xmlr, XdxfElement.XDXF)) {
+                    } else if (ParserUtil.checkFor(XMLStreamConstants.END_ELEMENT, xmlr, XDXFElement.XDXF)) {
                         break;
                     } else {
                         if (xmlr.getEventType() != XMLStreamConstants.CHARACTERS) {
@@ -103,7 +103,7 @@ public class DefaultXdxfParser implements XdxfParser {
                         }
                     }
                 }
-                ParserUtil.checkEndElement(xmlr, XdxfElement.XDXF);
+                ParserUtil.checkEndElement(xmlr, XDXFElement.XDXF);
             } else {
                 throw new ParseException("Invalid xml. Cannot find root element!");
             }
@@ -112,32 +112,32 @@ public class DefaultXdxfParser implements XdxfParser {
         }
     }
 
-    private void fireXdxfDictionaryEvent(XdxfDictionary dictionary) {
-        XdxfDictionaryEvent evt = new XdxfDictionaryEvent(dictionary);
-        for (XdxfEventListener listener : xdxfEventListeners) {
+    private void fireXdxfDictionaryEvent(XDXFDictionary dictionary) {
+        XDXFDictionaryEvent evt = new XDXFDictionaryEvent(dictionary);
+        for (XDXFEventListener listener : xdxfEventListeners) {
             listener.onDictionary(evt);
         }
     }
 
-    private void fireXdxfDictionaryChangeEvent(XdxfDictionary dictionary) {
-        XdxfDictionaryEvent evt = new XdxfDictionaryEvent(dictionary);
-        for (XdxfEventListener listener : xdxfEventListeners) {
+    private void fireXdxfDictionaryChangeEvent(XDXFDictionary dictionary) {
+        XDXFDictionaryEvent evt = new XDXFDictionaryEvent(dictionary);
+        for (XDXFEventListener listener : xdxfEventListeners) {
             listener.onDictionaryChange(evt);
         }
     }
 
-    private void fireXdxfArticleEvent(XdxfArticle article) {
-        XdxfArticleEvent evt = new XdxfArticleEvent(article);
-        for (XdxfEventListener listener : xdxfEventListeners) {
+    private void fireXdxfArticleEvent(XDXFArticle article) {
+        XDXFArticleEvent evt = new XDXFArticleEvent(article);
+        for (XDXFEventListener listener : xdxfEventListeners) {
             listener.onArticle(evt);
         }
     }
 
-    public void addSearchEventListener(XdxfEventListener listener) {
+    public void addSearchEventListener(XDXFEventListener listener) {
         xdxfEventListeners.add(listener);
     }
 
-    public void removeSearchEventListener(XdxfEventListener listener) {
+    public void removeSearchEventListener(XDXFEventListener listener) {
         xdxfEventListeners.remove(listener);
     }
 }
