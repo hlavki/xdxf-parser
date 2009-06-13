@@ -10,7 +10,7 @@ import javax.xml.namespace.QName;
  *
  * @author hlavki
  */
-public enum XdxfElement {
+public enum XDXFElement {
 
     XDXF("xdxf"),
     XDXF_FULL_NAME("full_name"),
@@ -20,7 +20,7 @@ public enum XdxfElement {
 
     private String localPart;
 
-    private XdxfElement(String localPart) {
+    private XDXFElement(String localPart) {
         this.localPart = localPart;
     }
 
@@ -32,9 +32,9 @@ public enum XdxfElement {
         return localPart.equals(name.getLocalPart());
     }
 
-    public static XdxfElement fromName(QName name) {
-        XdxfElement result = null;
-        for (XdxfElement elem : values()) {
+    public static XDXFElement fromName(QName name) {
+        XDXFElement result = null;
+        for (XDXFElement elem : values()) {
             if (elem.getLocalPart().equals(name.getLocalPart())) {
                 result = elem;
                 break;

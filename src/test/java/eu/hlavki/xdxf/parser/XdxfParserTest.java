@@ -1,9 +1,9 @@
 package eu.hlavki.xdxf.parser;
 
-import eu.hlavki.xdxf.parser.data.XdxfDictionary;
-import eu.hlavki.xdxf.parser.events.XdxfArticleEvent;
-import eu.hlavki.xdxf.parser.events.XdxfDictionaryEvent;
-import eu.hlavki.xdxf.parser.events.XdxfEventListener;
+import eu.hlavki.xdxf.parser.data.XDXFDictionary;
+import eu.hlavki.xdxf.parser.event.XDXFArticleEvent;
+import eu.hlavki.xdxf.parser.event.XDXFDictionaryEvent;
+import eu.hlavki.xdxf.parser.event.XDXFEventListener;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -23,17 +23,17 @@ public class XdxfParserTest {
     @Test
     public void parseSampleDictionary() {
         try {
-            XdxfParser parser = new DefaultXdxfParser();
+            XDXFParser parser = new DefaultXDXFParser();
             DictionaryListener listener = new DictionaryListener();
             parser.addSearchEventListener(listener);
-            XdxfContext ctx = new XdxfContext();
+            XDXFContext ctx = new XDXFContext();
             ExecuteTimer timer = new ExecuteTimer();
             timer.start();
             parser.parse(ctx, XdxfParserTest.class.getResourceAsStream("/test-dict.xdxf"));
             timer.stop();
             System.out.println("Articles count: " + listener.getArticleCount());
             System.out.println("Parsing time: " + timer);
-            XdxfDictionary dictionary = listener.getDictionary();
+            XDXFDictionary dictionary = listener.getDictionary();
             assertNotNull(dictionary);
             assertNotNull(dictionary.getSrcLanguage());
             assertNotNull(dictionary.getTargetLanguage());
@@ -46,20 +46,20 @@ public class XdxfParserTest {
         }
     }
 
-    private static class DictionaryListener implements XdxfEventListener {
+    private static class DictionaryListener implements XDXFEventListener {
 
         private int articleCount = 0;
-        private XdxfDictionary dictionary;
+        private XDXFDictionary dictionary;
 
-        public void onDictionary(XdxfDictionaryEvent evt) {
+        public void onDictionary(XDXFDictionaryEvent evt) {
             this.dictionary = evt.getSource();
         }
 
-        public void onDictionaryChange(XdxfDictionaryEvent evt) {
+        public void onDictionaryChange(XDXFDictionaryEvent evt) {
             this.dictionary = evt.getSource();
         }
 
-        public void onArticle(XdxfArticleEvent evt) {
+        public void onArticle(XDXFArticleEvent evt) {
             articleCount++;
         }
 
@@ -67,7 +67,7 @@ public class XdxfParserTest {
             return articleCount;
         }
 
-        public XdxfDictionary getDictionary() {
+        public XDXFDictionary getDictionary() {
             return dictionary;
         }
     }

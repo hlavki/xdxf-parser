@@ -12,7 +12,7 @@ import javax.xml.stream.XMLStreamReader;
  *
  * @author hlavki
  */
-public class XdxfFullNameElementParser implements ElementParser<String> {
+public class XDXFFullNameElementParser implements ElementParser<String> {
 
     public String parseElement(XMLStreamReader xmlr) throws ParseException {
         String fullName = null;

@@ -6,9 +6,9 @@ package eu.hlavki.xdxf.parser.element;
 
 import eu.hlavki.xdxf.parser.ParseException;
 import eu.hlavki.xdxf.parser.ParserUtil;
-import eu.hlavki.xdxf.parser.XdxfElement;
-import eu.hlavki.xdxf.parser.data.XdxfArticle;
-import eu.hlavki.xdxf.parser.data.XdxfFormat;
+import eu.hlavki.xdxf.parser.XDXFElement;
+import eu.hlavki.xdxf.parser.data.XDXFArticle;
+import eu.hlavki.xdxf.parser.data.XDXFFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.xml.stream.XMLStreamException;
@@ -18,23 +18,23 @@ import javax.xml.stream.XMLStreamReader;
  *
  * @author hlavki
  */
-public class XdxfArticleElementParser implements ElementParser<XdxfArticle> {
+public class XDXFArticleElementParser implements ElementParser<XDXFArticle> {
 
-    private static final Logger log = Logger.getLogger(XdxfArticleElementParser.class.getName());
+    private static final Logger log = Logger.getLogger(XDXFArticleElementParser.class.getName());
     private static final String FORMAT_ATTR = "f";
 
-    public XdxfArticle parseElement(XMLStreamReader xmlr) throws ParseException {
+    public XDXFArticle parseElement(XMLStreamReader xmlr) throws ParseException {
         String formatStr = ParserUtil.getAttributeValue(xmlr, FORMAT_ATTR);
-        XdxfArticle result = new XdxfArticle();
+        XDXFArticle result = new XDXFArticle();
         if (formatStr != null) {
-            result.setFormat(XdxfFormat.fromRealName(formatStr));
+            result.setFormat(XDXFFormat.fromRealName(formatStr));
         }
         try {
             xmlr.next();
-            ParserUtil.checkStartElement(xmlr, XdxfElement.ARTICLE_KEY);
+            ParserUtil.checkStartElement(xmlr, XDXFElement.ARTICLE_KEY);
             xmlr.next();
             result.setKey(ParserUtil.readString(xmlr).trim());
-            ParserUtil.checkEndElement(xmlr, XdxfElement.ARTICLE_KEY);
+            ParserUtil.checkEndElement(xmlr, XDXFElement.ARTICLE_KEY);
             xmlr.next();
             result.setTranslation(ParserUtil.readString(xmlr).trim());
         } catch (XMLStreamException e) {

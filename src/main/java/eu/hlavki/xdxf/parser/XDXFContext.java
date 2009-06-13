@@ -4,21 +4,21 @@
  */
 package eu.hlavki.xdxf.parser;
 
-import eu.hlavki.xdxf.parser.data.XdxfDictionary;
+import eu.hlavki.xdxf.parser.data.XDXFDictionary;
 
 /**
  *
  * @author hlavki
  */
-public class XdxfContext {
+public class XDXFContext {
 
-    private XdxfDictionary dictionary;
+    private XDXFDictionary dictionary;
 
-    public XdxfDictionary getDictionary() {
+    public XDXFDictionary getDictionary() {
         return dictionary;
     }
 
-    public void setDictionary(XdxfDictionary dictionary) {
+    public void setDictionary(XDXFDictionary dictionary) {
         this.dictionary = dictionary;
     }
 }

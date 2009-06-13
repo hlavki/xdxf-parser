@@ -33,7 +33,7 @@ public class ParserUtil {
      * check for event type which contains name
      * @throws ParseException
      */
-    public static boolean checkFor(int eventType, XMLStreamReader xmlr, XdxfElement el) throws ParseException {
+    public static boolean checkFor(int eventType, XMLStreamReader xmlr, XDXFElement el) throws ParseException {
         return (xmlr.getEventType() == eventType) && xmlr.hasName() && el.equals(xmlr.getName());
     }
 
@@ -42,7 +42,7 @@ public class ParserUtil {
      * check for start element
      * @throws ParseException
      */
-    public static void checkStartElement(XMLStreamReader xmlr, XdxfElement el) throws ParseException {
+    public static void checkStartElement(XMLStreamReader xmlr, XDXFElement el) throws ParseException {
         if (!xmlr.isStartElement() || !xmlr.hasName() || !el.equals(xmlr.getName())) {
             String found = (xmlr.hasName() ? xmlr.getName().getLocalPart() : "unkown");
             throw new InvalidElementException(ElementType.START, found, el);
@@ -53,7 +53,7 @@ public class ParserUtil {
      * check for end element
      * @throws ParseException
      */
-    public static void checkEndElement(XMLStreamReader xmlr, XdxfElement el) throws ParseException {
+    public static void checkEndElement(XMLStreamReader xmlr, XDXFElement el) throws ParseException {
         if (!xmlr.isEndElement() || !xmlr.hasName() || !el.equals(xmlr.getName())) {
             String found = (xmlr.hasName() ? xmlr.getName().getLocalPart() : "unkown[" + xmlr.getEventType() + "]");
             throw new InvalidElementException(ElementType.END, found, el);
