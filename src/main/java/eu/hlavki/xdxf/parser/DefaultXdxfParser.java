@@ -5,7 +5,7 @@
 package eu.hlavki.xdxf.parser;
 
 import eu.hlavki.xdxf.parser.data.XdxfArticle;
-import eu.hlavki.xdxf.parser.data.Dictionary;
+import eu.hlavki.xdxf.parser.data.XdxfDictionary;
 import eu.hlavki.xdxf.parser.element.XdxfArticleElementParser;
 import eu.hlavki.xdxf.parser.element.XdxfDescriptionElementParser;
 import eu.hlavki.xdxf.parser.element.XdxfElementParser;
@@ -64,7 +64,7 @@ public class DefaultXdxfParser implements XdxfParser {
             if (xmlr.hasNext()) {
                 xmlr.next();
                 ParserUtil.checkStartElement(xmlr, XdxfElement.XDXF);
-                Dictionary dict = new XdxfElementParser().parseElement(xmlr);
+                XdxfDictionary dict = new XdxfElementParser().parseElement(xmlr);
                 fireXdxfDictionaryEvent(dict);
                 ctx.setDictionary(dict);
                 while (xmlr.hasNext()) {
@@ -112,14 +112,14 @@ public class DefaultXdxfParser implements XdxfParser {
         }
     }
 
-    private void fireXdxfDictionaryEvent(Dictionary dictionary) {
+    private void fireXdxfDictionaryEvent(XdxfDictionary dictionary) {
         XdxfDictionaryEvent evt = new XdxfDictionaryEvent(dictionary);
         for (XdxfEventListener listener : xdxfEventListeners) {
             listener.onDictionary(evt);
         }
     }
 
-    private void fireXdxfDictionaryChangeEvent(Dictionary dictionary) {
+    private void fireXdxfDictionaryChangeEvent(XdxfDictionary dictionary) {
         XdxfDictionaryEvent evt = new XdxfDictionaryEvent(dictionary);
         for (XdxfEventListener listener : xdxfEventListeners) {
             listener.onDictionaryChange(evt);

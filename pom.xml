@@ -45,13 +45,19 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.1</version>
+            <version>4.5</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.sun.sjsxp</groupId>
             <artifactId>sjsxp</artifactId>
             <version>1.0.1</version>
+        </dependency>
+        <dependency>
+            <groupId>sk.datalan.util.timer</groupId>
+            <artifactId>execute-timer</artifactId>
+            <version>1.1</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
     <build>
@@ -73,4 +79,5 @@
         </plugins>
     </build>
 </project>
+
 

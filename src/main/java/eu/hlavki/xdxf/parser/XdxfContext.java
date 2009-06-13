@@ -4,7 +4,7 @@
  */
 package eu.hlavki.xdxf.parser;
 
-import eu.hlavki.xdxf.parser.data.Dictionary;
+import eu.hlavki.xdxf.parser.data.XdxfDictionary;
 
 /**
  *
@@ -12,13 +12,13 @@ import eu.hlavki.xdxf.parser.data.Dictionary;
  */
 public class XdxfContext {
 
-    private Dictionary dictionary;
+    private XdxfDictionary dictionary;
 
-    public Dictionary getDictionary() {
+    public XdxfDictionary getDictionary() {
         return dictionary;
     }
 
-    public void setDictionary(Dictionary dictionary) {
+    public void setDictionary(XdxfDictionary dictionary) {
         this.dictionary = dictionary;
     }
 }

@@ -8,7 +8,6 @@ import eu.hlavki.xdxf.parser.ParseException;
 import eu.hlavki.xdxf.parser.ParserUtil;
 import eu.hlavki.xdxf.parser.XdxfElement;
 import eu.hlavki.xdxf.parser.data.XdxfArticle;
-import eu.hlavki.xdxf.parser.data.Dictionary;
 import eu.hlavki.xdxf.parser.data.XdxfFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -45,7 +44,9 @@ public class XdxfArticleElementParser implements ElementParser<XdxfArticle> {
             log.severe(result.toString());
             throw e;
         }
-        log.fine(result.toString());
+        if (log.isLoggable(Level.FINE)) {
+            log.fine(result.toString());
+        }
         return result;
     }
 }

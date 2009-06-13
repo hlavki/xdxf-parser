@@ -17,4 +17,8 @@ public interface XdxfParser {
     void parse(XdxfContext context, InputStream in) throws ParseException;
 
     void parse(XdxfContext context, File file) throws ParseException;
+
+    public void addSearchEventListener(XdxfEventListener listener);
+
+    public void removeSearchEventListener(XdxfEventListener listener);
 }
