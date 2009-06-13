@@ -1,0 +1,16 @@
+# use glob syntax.
+syntax: glob
+target/
+.settings/
+profiles.xml
+.project
+.classpath
+# intellij idea project files
+*.iml
+*.ipr
+*.iws
+\.orig$
+\.orig\..*$
+\.chg\..*$
+\.rej$
+\.conflict\~$
