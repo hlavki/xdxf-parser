@@ -21,6 +21,7 @@
 package eu.hlavki.xdxf.parser;
 
 import eu.hlavki.xdxf.parser.InvalidElementException.ElementType;
+import java.util.Set;
 import javax.xml.namespace.QName;
 import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamException;
@@ -82,6 +83,12 @@ public class ParserUtil {
             xmlr.next();
         }
         return sb.toString();
+    }
+
+    public static void gotoNextElement(int eventType, XMLStreamReader xmlr) throws XMLStreamException {
+        while (xmlr.hasNext() && !(xmlr.getEventType() == eventType)) {
+            xmlr.next();
+        }
     }
 
     public static void gotoNextElement(int eventType, XMLStreamReader xmlr, XDXFElement el) throws XMLStreamException {

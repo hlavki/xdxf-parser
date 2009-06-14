@@ -33,9 +33,9 @@ public class XDXFFullNameElementParser implements ElementParser<String> {
     public String parseElement(XMLStreamReader xmlr) throws ParseException {
         String fullName = null;
         try {
-            xmlr.next();
+            xmlr.next(); // move to characters after <full_name> element
             fullName = xmlr.getText();
-            xmlr.next();
+            xmlr.next(); // move to </full_name> end element
         } catch (XMLStreamException e) {
             throw new ParseException(e);
         }

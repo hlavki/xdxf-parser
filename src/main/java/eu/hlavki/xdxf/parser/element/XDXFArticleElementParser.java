@@ -49,14 +49,13 @@ public class XDXFArticleElementParser implements ElementParser<XDXFArticle> {
         try {
             ParserUtil.gotoNextElement(XMLEvent.START_ELEMENT, xmlr, ARTICLE_KEY);
             ParserUtil.checkStartElement(xmlr, ARTICLE_KEY);
-            StringBuffer key = new StringBuffer();
-            xmlr.next();
+            xmlr.next(); // move to next fragment (<opt> element or characters)
             while (!ParserUtil.checkFor(XMLEvent.END_ELEMENT, xmlr, ARTICLE_KEY)) {
                 if (ParserUtil.checkFor(XMLEvent.START_ELEMENT, xmlr, ARTICLE_KEY_OPT)) {
-                    xmlr.next();
+                    xmlr.next(); // if <opt> element, move to characters
                     result.addKeyElement(new XDXFArticle.XDXFArticleKeyElement(ParserUtil.readString(xmlr).trim(), true));
                     ParserUtil.checkEndElement(xmlr, ARTICLE_KEY_OPT);
-                    xmlr.next();
+                    xmlr.next(); // move one step after </opt>
                 } else if (xmlr.getEventType() == XMLEvent.CHARACTERS) {
                     result.addKeyElement(new XDXFArticle.XDXFArticleKeyElement(ParserUtil.readString(xmlr).trim(), false));
                 } else {
