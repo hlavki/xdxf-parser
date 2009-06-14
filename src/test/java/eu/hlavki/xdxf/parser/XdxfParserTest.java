@@ -19,6 +19,9 @@ import static org.junit.Assert.*;
 
 public class XdxfParserTest {
 
+    private static final String LARGE_DISTIONARY = "/test-dict.xdxf";
+    private static final String FEATURE_FULL_DISTIONARY = "/full-impl-dict.xdxf";
+
     @Before
     public void beforeTest() {
     }
@@ -28,26 +31,44 @@ public class XdxfParserTest {
     }
 
     @Test
-    public void parseSampleDictionary() {
+    public void parserLargeButFeatureLessDictionary() {
+        DictionaryListener listener = new DictionaryListener();
+        parseXDXFDictionary(LARGE_DISTIONARY, listener);
+        System.out.println("Articles count: " + listener.getArticleCount());
+        XDXFDictionary dictionary = listener.getDictionary();
+        assertNotNull(dictionary);
+        assertNotNull(dictionary.getSrcLanguage());
+        assertNotNull(dictionary.getTargetLanguage());
+        assertNotNull(dictionary.getFullName());
+        assertNotNull(dictionary.getFormat());
+        assertTrue(listener.getArticleCount() > 0);
+    }
+
+    @Test
+    public void parserFeatureFullDictionary() {
+        DictionaryListener listener = new DictionaryListener();
+        parseXDXFDictionary(FEATURE_FULL_DISTIONARY, listener);
+        System.out.println("Articles count: " + listener.getArticleCount());
+        XDXFDictionary dictionary = listener.getDictionary();
+        assertNotNull(dictionary);
+        assertNotNull(dictionary.getSrcLanguage());
+        assertNotNull(dictionary.getTargetLanguage());
+        assertNotNull(dictionary.getFullName());
+        assertNotNull(dictionary.getFormat());
+        assertTrue(listener.getArticleCount() == 1);
+    }
+
+    public void parseXDXFDictionary(String resource, XDXFEventListener listener) {
         InputStream in = null;
         try {
             XDXFParser parser = new DefaultXDXFParser();
-            DictionaryListener listener = new DictionaryListener();
             parser.addXDXFEventListener(listener);
             ExecuteTimer timer = new ExecuteTimer();
             timer.start();
-            in = getClass().getResourceAsStream("/test-dict.xdxf");
+            in = getClass().getResourceAsStream(resource);
             parser.parse(in);
             timer.stop();
-            System.out.println("Articles count: " + listener.getArticleCount());
             System.out.println("Parsing time: " + timer);
-            XDXFDictionary dictionary = listener.getDictionary();
-            assertNotNull(dictionary);
-            assertNotNull(dictionary.getSrcLanguage());
-            assertNotNull(dictionary.getTargetLanguage());
-            assertNotNull(dictionary.getFullName());
-            assertNotNull(dictionary.getFormat());
-            assertTrue(listener.getArticleCount() > 0);
         } catch (ParseException e) {
             e.printStackTrace();
             fail();
