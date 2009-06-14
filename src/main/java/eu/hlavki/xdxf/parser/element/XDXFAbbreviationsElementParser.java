@@ -64,7 +64,6 @@ public class XDXFAbbreviationsElementParser implements ElementParser<Map<String,
                             ParserUtil.assertEndElement(xmlr, ABBREVIATION_DEF_KEY);
                             break;
                         case ABBREVIATION_DEF_VAL:
-                            xmlr.next(); // goto characters inside <v> element
                             abbrValue = (xmlr.getElementText().trim());
                             ParserUtil.assertEndElement(xmlr, ABBREVIATION_DEF_VAL);
                             break;
