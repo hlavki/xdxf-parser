@@ -24,6 +24,8 @@ import eu.hlavki.xdxf.parser.data.XDXFDictionary;
 import eu.hlavki.xdxf.parser.ParseException;
 import eu.hlavki.xdxf.parser.ParserUtil;
 import eu.hlavki.xdxf.parser.data.XDXFFormat;
+import java.util.EnumSet;
+import java.util.Set;
 import javax.xml.stream.XMLStreamReader;
 
 /**
@@ -35,6 +37,7 @@ public class XDXFElementParser implements ElementParser<XDXFDictionary> {
     private static final String SRC_LANG_ATTR = "lang_from";
     private static final String TARGET_LANG_ATTR = "lang_to";
     private static final String FORMAT_ATTR = "format";
+    private static final Set<XDXFFormat> VALID_FORMATS = EnumSet.of(XDXFFormat.VISUAL);
 
     public XDXFDictionary parseElement(XMLStreamReader xmlr) throws ParseException {
         String srcLanguage = ParserUtil.getAttributeValue(xmlr, SRC_LANG_ATTR);
@@ -46,8 +49,8 @@ public class XDXFElementParser implements ElementParser<XDXFDictionary> {
             throw new ParseException(TARGET_LANG_ATTR + " attribute has to be ISO 639.2 code!");
         }
         XDXFFormat format = XDXFFormat.fromRealName(ParserUtil.getAttributeValue(xmlr, FORMAT_ATTR));
-        if (format == null) {
-            throw new ParseException("Format has to be one of values (visual, logical)");
+        if (format == null || !VALID_FORMATS.contains(format)) {
+            throw new ParseException("Format has to be one of values " + VALID_FORMATS);
         }
         return new XDXFDictionary(srcLanguage, targetLanguage, format);
     }
