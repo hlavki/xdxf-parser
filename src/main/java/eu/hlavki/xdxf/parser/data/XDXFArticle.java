@@ -33,6 +33,8 @@ public class XDXFArticle {
     private XDXFFormat format;
     private List<XDXFArticleKeyElement> key;
     private String translation;
+    private String partOfSpeech;
+    private String tense;
 
     public XDXFArticle() {
         key = new LinkedList<XDXFArticleKeyElement>();
@@ -60,6 +62,22 @@ public class XDXFArticle {
 
     public void setTranslation(String translation) {
         this.translation = translation;
+    }
+
+    public String getPartOfSpeech() {
+        return partOfSpeech;
+    }
+
+    public void setPartOfSpeech(String partOfSpeech) {
+        this.partOfSpeech = partOfSpeech;
+    }
+
+    public String getTense() {
+        return tense;
+    }
+
+    public void setTense(String tense) {
+        this.tense = tense;
     }
 
     @Override
