@@ -81,8 +81,8 @@ public class DefaultXDXFParser implements XDXFParser {
         xmlif.setProperty(XMLInputFactory.IS_SUPPORTING_EXTERNAL_ENTITIES, Boolean.FALSE);
         //set the IS_COALESCING property to true , if application desires to
         //get whole text data as one event.
-        xmlif.setProperty(XMLInputFactory.SUPPORT_DTD, Boolean.FALSE);
         xmlif.setProperty(XMLInputFactory.IS_COALESCING, Boolean.FALSE);
+        xmlif.setProperty(XMLInputFactory.SUPPORT_DTD, Boolean.FALSE);
         try {
             XMLStreamReader xmlr = xmlif.createXMLStreamReader(in);
             XDXFDictionary dict = null;
@@ -92,40 +92,40 @@ public class DefaultXDXFParser implements XDXFParser {
                     XDXFElement el = XDXFElement.fromName(xmlr, ROOT_ELEM, true);
                     switch (el) {
                         case XDXF:
-                            ParserUtil.checkStartElement(xmlr, XDXF);
+                            ParserUtil.assertStartElement(xmlr, XDXF);
                             dict = new XDXFElementParser().parseElement(xmlr);
                             fireXdxfDictionaryEvent(dict);
                             break;
                         case ABBREVIATIONS:
-                            ParserUtil.checkStartElement(xmlr, ABBREVIATIONS);
+                            ParserUtil.assertStartElement(xmlr, ABBREVIATIONS);
                             dict.setAbbreviations(new XDXFAbbreviationsElementParser().parseElement(xmlr));
 
-                            ParserUtil.checkEndElement(xmlr, ABBREVIATIONS);
+                            ParserUtil.assertEndElement(xmlr, ABBREVIATIONS);
                             fireXdxfDictionaryChangeEvent(dict);
                             break;
                         case XDXF_FULL_NAME:
-                            ParserUtil.checkStartElement(xmlr, XDXF_FULL_NAME);
+                            ParserUtil.assertStartElement(xmlr, XDXF_FULL_NAME);
                             String fullName = new XDXFFullNameElementParser().parseElement(xmlr);
                             dict.setFullName(fullName);
-                            ParserUtil.checkEndElement(xmlr, XDXF_FULL_NAME);
+                            ParserUtil.assertEndElement(xmlr, XDXF_FULL_NAME);
                             fireXdxfDictionaryChangeEvent(dict);
                             break;
                         case XDXF_DESCRIPTION:
-                            ParserUtil.checkStartElement(xmlr, XDXF_DESCRIPTION);
+                            ParserUtil.assertStartElement(xmlr, XDXF_DESCRIPTION);
                             String desc = new XDXFDescriptionElementParser().parseElement(xmlr);
                             dict.setDescription(desc);
-                            ParserUtil.checkEndElement(xmlr, XDXF_DESCRIPTION);
+                            ParserUtil.assertEndElement(xmlr, XDXF_DESCRIPTION);
                             fireXdxfDictionaryChangeEvent(dict);
                             break;
                         case ARTICLE:
-                            ParserUtil.checkStartElement(xmlr, ARTICLE);
+                            ParserUtil.assertStartElement(xmlr, ARTICLE);
                             XDXFArticle article = new XDXFArticleElementParser().parseElement(xmlr);
-                            ParserUtil.checkEndElement(xmlr, ARTICLE);
+                            ParserUtil.assertEndElement(xmlr, ARTICLE);
                             fireXdxfArticleEvent(article);
                             break;
                     }
                 } else if (xmlr.getEventType() == XMLEvent.END_ELEMENT) {
-                    ParserUtil.checkEndElement(xmlr, XDXF);
+                    ParserUtil.assertEndElement(xmlr, XDXF);
                 }
             }
         } catch (XMLStreamException e) {

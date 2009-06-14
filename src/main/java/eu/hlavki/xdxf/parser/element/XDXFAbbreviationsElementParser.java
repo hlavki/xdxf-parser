@@ -22,7 +22,7 @@ package eu.hlavki.xdxf.parser.element;
 
 import eu.hlavki.xdxf.parser.ParseException;
 import eu.hlavki.xdxf.parser.ParserUtil;
-import eu.hlavki.xdxf.parser.UnknownElementParserException;
+import eu.hlavki.xdxf.parser.InvalidSectionException;
 import eu.hlavki.xdxf.parser.XDXFElement;
 import static eu.hlavki.xdxf.parser.XDXFElement.*;
 import java.util.EnumSet;
@@ -60,17 +60,16 @@ public class XDXFAbbreviationsElementParser implements ElementParser<Map<String,
                             // do nothing
                             break;
                         case ABBREVIATION_DEF_KEY:
-                            xmlr.next(); // goto characters inside <k> element
-                            abbrKeys.add(ParserUtil.readString(xmlr).trim());
-                            ParserUtil.checkEndElement(xmlr, ABBREVIATION_DEF_KEY);
+                            abbrKeys.add(xmlr.getElementText().trim());
+                            ParserUtil.assertEndElement(xmlr, ABBREVIATION_DEF_KEY);
                             break;
                         case ABBREVIATION_DEF_VAL:
                             xmlr.next(); // goto characters inside <v> element
-                            abbrValue = (ParserUtil.readString(xmlr).trim());
-                            ParserUtil.checkEndElement(xmlr, ABBREVIATION_DEF_VAL);
+                            abbrValue = (xmlr.getElementText().trim());
+                            ParserUtil.assertEndElement(xmlr, ABBREVIATION_DEF_VAL);
                             break;
                         default:
-                            throw new UnknownElementParserException(xmlr);
+                            throw new InvalidSectionException(xmlr);
 
                     }
                 } else if (eventType == XMLEvent.END_ELEMENT) {
@@ -90,10 +89,10 @@ public class XDXFAbbreviationsElementParser implements ElementParser<Map<String,
                             break;
                     }
                 } else if (eventType != XMLEvent.CHARACTERS) {
-                    throw new UnknownElementParserException(xmlr);
+                    throw new InvalidSectionException(xmlr);
                 }
             }
-            ParserUtil.checkEndElement(xmlr, ABBREVIATIONS);
+            ParserUtil.assertEndElement(xmlr, ABBREVIATIONS);
         } catch (XMLStreamException e) {
             throw new ParseException(e);
         }

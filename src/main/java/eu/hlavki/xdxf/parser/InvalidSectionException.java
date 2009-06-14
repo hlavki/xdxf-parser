@@ -1,20 +1,20 @@
 /*
- * UnexpectedFragmentParserException.java
- * 
+ * InvalidElementException.java
+ *
  * Copyright (c) 2009 Michal HLavac <hlavki@hlavki.eu>. All rights reserved.
- * 
+ *
  * This file is part of XDXF Parser (jar).
- * 
+ *
  * XDXF Parser (jar) is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * XDXF Parser (jar) is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with XDXF Parser (jar).  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -25,17 +25,30 @@ import javax.xml.stream.XMLStreamReader;
 
 /**
  *
- * @author Michal HLavac <hlavki@hlavki.eu>
+ * @author hlavki
  */
-public class UnknownElementParserException extends ParseException {
+public class InvalidSectionException extends ParseException {
 
-    private static final long serialVersionUID = 2773098670234955600L;
+    private static final long serialVersionUID = 340118410658978864L;
 
-    public UnknownElementParserException(int eventType, Location location) {
-        super("Unknown element in xdxf format (eventType = " + eventType + " location " + location);
+    public enum ElementType {
+
+        START, END
     }
 
-    public UnknownElementParserException(XMLStreamReader xmlr) {
+    public InvalidSectionException(ElementType type, String foundEl, String expectedEl, Location location) {
+        super("Unknown " + type + " element " + foundEl + " found but expected " + expectedEl + " @ " + location);
+    }
+
+    public InvalidSectionException(ElementType type, String foundEl, XDXFElement expectedEl, Location location) {
+        super("Unknown " + type + " element " + foundEl + " found but expected " + expectedEl.toString() + " @ " + location);
+    }
+
+    public InvalidSectionException(int eventType, Location location) {
+        super("Unknown section in xdxf format (eventType = " + eventType + ") @ location " + location);
+    }
+
+    public InvalidSectionException(XMLStreamReader xmlr) {
         this(xmlr.getEventType(), xmlr.getLocation());
     }
 }

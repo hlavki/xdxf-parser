@@ -20,7 +20,7 @@
  */
 package eu.hlavki.xdxf.parser;
 
-import eu.hlavki.xdxf.parser.InvalidElementException.ElementType;
+import eu.hlavki.xdxf.parser.InvalidSectionException.ElementType;
 import java.util.Set;
 import javax.xml.namespace.QName;
 import javax.xml.stream.XMLStreamConstants;
@@ -58,10 +58,10 @@ public class ParserUtil {
      * check for start element
      * @throws ParseException
      */
-    public static void checkStartElement(XMLStreamReader xmlr, XDXFElement el) throws ParseException {
+    public static void assertStartElement(XMLStreamReader xmlr, XDXFElement el) throws ParseException {
         if (!xmlr.isStartElement() || !xmlr.hasName() || !el.equals(xmlr.getName())) {
             String found = (xmlr.hasName() ? xmlr.getName().getLocalPart() : "unkown");
-            throw new InvalidElementException(ElementType.START, found, el);
+            throw new InvalidSectionException(ElementType.START, found, el, xmlr.getLocation());
         }
     }
 
@@ -69,10 +69,10 @@ public class ParserUtil {
      * check for end element
      * @throws ParseException
      */
-    public static void checkEndElement(XMLStreamReader xmlr, XDXFElement el) throws ParseException {
+    public static void assertEndElement(XMLStreamReader xmlr, XDXFElement el) throws ParseException {
         if (!xmlr.isEndElement() || !xmlr.hasName() || !el.equals(xmlr.getName())) {
             String found = (xmlr.hasName() ? xmlr.getName().getLocalPart() : "unkown[" + xmlr.getEventType() + "]");
-            throw new InvalidElementException(ElementType.END, found, el);
+            throw new InvalidSectionException(ElementType.END, found, el, xmlr.getLocation());
         }
     }
 

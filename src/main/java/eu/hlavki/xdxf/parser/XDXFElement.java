@@ -39,7 +39,9 @@ public enum XDXFElement {
     ARTICLE_KEY_OPT("opt", ARTICLE_KEY),
     ABBREVIATION_DEF("abr_def", ABBREVIATIONS),
     ABBREVIATION_DEF_KEY("k", ABBREVIATION_DEF),
-    ABBREVIATION_DEF_VAL("v", ABBREVIATION_DEF);
+    ABBREVIATION_DEF_VAL("v", ABBREVIATION_DEF),
+    ARTICLE_POS("pos", ARTICLE),
+    ARTICLE_TENSE("tense", ARTICLE);
 
     private String localPart;
     private XDXFElement parent;
@@ -85,7 +87,7 @@ public enum XDXFElement {
             }
         }
         if (result == null) {
-            throw new UnknownElementParserException(xmlr);
+            throw new InvalidSectionException(xmlr);
         }
         return result;
     }
