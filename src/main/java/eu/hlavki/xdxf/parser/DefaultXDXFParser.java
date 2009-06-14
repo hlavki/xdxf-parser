@@ -84,6 +84,9 @@ public class DefaultXDXFParser implements XDXFParser {
                 xmlr.next();
                 if (xmlr.getEventType() == XMLEvent.START_ELEMENT) {
                     XDXFElement el = XDXFElement.fromName(xmlr.getName());
+                    if (el == null) {
+                        throw new InvalidElementException(xmlr.getLocalName());
+                    }
                     switch (el) {
                         case XDXF:
                             ParserUtil.checkStartElement(xmlr, XDXFElement.XDXF);

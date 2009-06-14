@@ -49,10 +49,9 @@ public class ParserUtil {
      * check for event type which contains name
      * @throws ParseException
      */
-    public static boolean checkFor(int eventType, XMLStreamReader xmlr, XDXFElement el) throws ParseException {
+    public static boolean checkFor(int eventType, XMLStreamReader xmlr, XDXFElement el) {
         return (xmlr.getEventType() == eventType) && xmlr.hasName() && el.equals(xmlr.getName());
     }
-
 
     /**
      * check for start element
@@ -83,5 +82,11 @@ public class ParserUtil {
             xmlr.next();
         }
         return sb.toString();
+    }
+
+    public static void gotoNextElement(int eventType, XMLStreamReader xmlr, XDXFElement el) throws XMLStreamException {
+        while (xmlr.hasNext() && !checkFor(eventType, xmlr, el)) {
+            xmlr.next();
+        }
     }
 }
