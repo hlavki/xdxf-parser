@@ -32,7 +32,9 @@ public enum XDXFElement {
     XDXF_FULL_NAME("full_name"),
     XDXF_DESCRIPTION("description"),
     ARTICLE("ar"),
-    ARTICLE_KEY("k");
+    ARTICLE_KEY("k"),
+    ABBREVIATIONS("abbreviations"),
+    ARTICLE_KEY_OPT("opt");
 
     private String localPart;
 

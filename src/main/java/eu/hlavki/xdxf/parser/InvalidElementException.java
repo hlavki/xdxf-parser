@@ -40,4 +40,8 @@ public class InvalidElementException extends ParseException {
     public InvalidElementException(ElementType type, String foundEl, XDXFElement expectedEl) {
         super("Unknown " + type + " element " + foundEl + " found but expected " + expectedEl.toString());
     }
+
+    public InvalidElementException(String element) {
+        super("Unknown element '" + element + "'");
+    }
 }

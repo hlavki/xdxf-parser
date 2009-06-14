@@ -22,13 +22,14 @@ package eu.hlavki.xdxf.parser.element;
 
 import eu.hlavki.xdxf.parser.ParseException;
 import eu.hlavki.xdxf.parser.ParserUtil;
-import eu.hlavki.xdxf.parser.XDXFElement;
+import static eu.hlavki.xdxf.parser.XDXFElement.*;
 import eu.hlavki.xdxf.parser.data.XDXFArticle;
 import eu.hlavki.xdxf.parser.data.XDXFFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
+import javax.xml.stream.events.XMLEvent;
 
 /**
  *
@@ -46,11 +47,23 @@ public class XDXFArticleElementParser implements ElementParser<XDXFArticle> {
             result.setFormat(XDXFFormat.fromRealName(formatStr));
         }
         try {
+            ParserUtil.gotoNextElement(XMLEvent.START_ELEMENT, xmlr, ARTICLE_KEY);
+            ParserUtil.checkStartElement(xmlr, ARTICLE_KEY);
+            StringBuffer key = new StringBuffer();
             xmlr.next();
-            ParserUtil.checkStartElement(xmlr, XDXFElement.ARTICLE_KEY);
-            xmlr.next();
-            result.setKey(ParserUtil.readString(xmlr).trim());
-            ParserUtil.checkEndElement(xmlr, XDXFElement.ARTICLE_KEY);
+            while (!ParserUtil.checkFor(XMLEvent.END_ELEMENT, xmlr, ARTICLE_KEY)) {
+                if (ParserUtil.checkFor(XMLEvent.START_ELEMENT, xmlr, ARTICLE_KEY_OPT)) {
+                    xmlr.next();
+                    result.addKeyElement(new XDXFArticle.XDXFArticleKeyElement(ParserUtil.readString(xmlr).trim(), true));
+                    ParserUtil.checkEndElement(xmlr, ARTICLE_KEY_OPT);
+                    xmlr.next();
+                } else if (xmlr.getEventType() == XMLEvent.CHARACTERS) {
+                    result.addKeyElement(new XDXFArticle.XDXFArticleKeyElement(ParserUtil.readString(xmlr).trim(), false));
+                } else {
+                    throw new ParseException("Uknown xdxf format! Unexpected behaviour at " + xmlr.getLocation());
+                }
+            }
+            ParserUtil.checkEndElement(xmlr, ARTICLE_KEY);
             xmlr.next();
             result.setTranslation(ParserUtil.readString(xmlr).trim());
         } catch (XMLStreamException e) {
