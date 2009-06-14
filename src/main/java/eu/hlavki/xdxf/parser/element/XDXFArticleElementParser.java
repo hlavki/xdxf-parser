@@ -20,11 +20,16 @@
  */
 package eu.hlavki.xdxf.parser.element;
 
+import eu.hlavki.xdxf.parser.InvalidSectionException;
 import eu.hlavki.xdxf.parser.ParseException;
 import eu.hlavki.xdxf.parser.ParserUtil;
+import eu.hlavki.xdxf.parser.XDXFElement;
 import static eu.hlavki.xdxf.parser.XDXFElement.*;
 import eu.hlavki.xdxf.parser.data.XDXFArticle;
+import eu.hlavki.xdxf.parser.data.XDXFArticle.XDXFArticleKeyElement;
 import eu.hlavki.xdxf.parser.data.XDXFFormat;
+import java.util.EnumSet;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.xml.stream.XMLStreamException;
@@ -39,6 +44,7 @@ public class XDXFArticleElementParser implements ElementParser<XDXFArticle> {
 
     private static final Logger log = Logger.getLogger(XDXFArticleElementParser.class.getName());
     private static final String FORMAT_ATTR = "f";
+    private static final Set<XDXFElement> ARTICLE_PARENT_ELEMS = EnumSet.of(ARTICLE, ARTICLE_KEY);
 
     public XDXFArticle parseElement(XMLStreamReader xmlr) throws ParseException {
         String formatStr = ParserUtil.getAttributeValue(xmlr, FORMAT_ATTR);
@@ -47,24 +53,58 @@ public class XDXFArticleElementParser implements ElementParser<XDXFArticle> {
             result.setFormat(XDXFFormat.fromRealName(formatStr));
         }
         try {
-            ParserUtil.gotoNextElement(XMLEvent.START_ELEMENT, xmlr, ARTICLE_KEY);
-            ParserUtil.checkStartElement(xmlr, ARTICLE_KEY);
-            xmlr.next(); // move to next fragment (<opt> element or characters)
-            while (!ParserUtil.checkFor(XMLEvent.END_ELEMENT, xmlr, ARTICLE_KEY)) {
-                if (ParserUtil.checkFor(XMLEvent.START_ELEMENT, xmlr, ARTICLE_KEY_OPT)) {
-                    xmlr.next(); // if <opt> element, move to characters
-                    result.addKeyElement(new XDXFArticle.XDXFArticleKeyElement(ParserUtil.readString(xmlr).trim(), true));
-                    ParserUtil.checkEndElement(xmlr, ARTICLE_KEY_OPT);
-                    xmlr.next(); // move one step after </opt>
-                } else if (xmlr.getEventType() == XMLEvent.CHARACTERS) {
-                    result.addKeyElement(new XDXFArticle.XDXFArticleKeyElement(ParserUtil.readString(xmlr).trim(), false));
-                } else {
-                    throw new ParseException("Uknown xdxf format! Unexpected behaviour at " + xmlr.getLocation());
+            while (!ParserUtil.checkFor(XMLEvent.END_ELEMENT, xmlr, ARTICLE)) {
+                xmlr.next(); // next fragment
+                int eventType = xmlr.getEventType();
+                if (eventType == XMLEvent.START_ELEMENT) {
+                    XDXFElement el = XDXFElement.fromName(xmlr, ARTICLE_PARENT_ELEMS, false);
+                    switch (el) {
+                        case ARTICLE:
+                            // do nothing
+                            break;
+                        case ARTICLE_KEY:
+                            xmlr.next();
+                            while (!ParserUtil.checkFor(XMLEvent.END_ELEMENT, xmlr, ARTICLE_KEY)) {
+                                if (ParserUtil.checkFor(XMLEvent.START_ELEMENT, xmlr, ARTICLE_KEY_OPT)) {
+                                    xmlr.next(); // if <opt> element, move to characters
+                                    String key = ParserUtil.readString(xmlr).trim();
+                                    result.addKeyElement(new XDXFArticleKeyElement(key, true));
+                                    ParserUtil.assertEndElement(xmlr, ARTICLE_KEY_OPT);
+                                    xmlr.next(); // move one step after </opt>
+                                } else if (xmlr.getEventType() == XMLEvent.CHARACTERS) {
+                                    String key = ParserUtil.readString(xmlr).trim();
+                                    result.addKeyElement(new XDXFArticleKeyElement(key, false));
+                                } else {
+                                    throw new InvalidSectionException(xmlr);
+                                }
+                            }
+                            ParserUtil.assertEndElement(xmlr, ARTICLE_KEY);
+                            xmlr.next();
+                            result.setTranslation(ParserUtil.readString(xmlr).trim());
+                            break;
+                        case ARTICLE_POS:
+                            result.setPartOfSpeech(xmlr.getElementText().trim());
+                            ParserUtil.assertEndElement(xmlr, ARTICLE_POS);
+                            break;
+                        case ARTICLE_TENSE:
+                            result.setPartOfSpeech(xmlr.getElementText().trim());
+                            ParserUtil.assertEndElement(xmlr, ARTICLE_TENSE);
+                            break;
+                        default:
+                            throw new InvalidSectionException(xmlr);
+
+                    }
+                } else if (eventType == XMLEvent.END_ELEMENT) {
+                    XDXFElement el = XDXFElement.fromName(xmlr, ARTICLE_PARENT_ELEMS, false);
+                    switch (el) {
+                        case ARTICLE:
+                            // do nothing
+                            break;
+                    }
+                } else if (eventType != XMLEvent.CHARACTERS) {
+                    throw new InvalidSectionException(xmlr);
                 }
             }
-            ParserUtil.checkEndElement(xmlr, ARTICLE_KEY);
-            xmlr.next();
-            result.setTranslation(ParserUtil.readString(xmlr).trim());
         } catch (XMLStreamException e) {
             log.severe(result.toString());
             throw new ParseException(e);
