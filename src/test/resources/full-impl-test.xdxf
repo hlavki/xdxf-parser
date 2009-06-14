@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xdxf lang_from="ENG" lang_to="ENG" format="visual">
+    <full_name>Webster's Unabridged Dictionary</full_name>
+    <description>Webster's Unabridged Dictionary published 1913 by the... </description>
+    <!--abbreviations>
+        <abr_def>
+            <k>n.</k>
+            <v>noun</v>
+        </abr_def>
+        <abr_def>
+            <k>v.</k>
+            <v>verb</v>
+        </abr_def>
+        <abr_def>
+            <k>Av.</k>
+            <k>Ave.</k>
+            <v>Avenue</v>
+        </abr_def>
+    </abbreviations-->
+
+    <ar>
+        <k>
+            <opt>The </opt>United States
+            <opt> of America</opt>
+        </k>
+  Соединенные Штаты Америки
+    </ar>
+</xdxf>
