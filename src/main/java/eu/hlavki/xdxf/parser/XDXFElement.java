@@ -20,7 +20,9 @@
  */
 package eu.hlavki.xdxf.parser;
 
+import java.util.Set;
 import javax.xml.namespace.QName;
+import javax.xml.stream.XMLStreamReader;
 
 /**
  * 
@@ -29,17 +31,26 @@ import javax.xml.namespace.QName;
 public enum XDXFElement {
 
     XDXF("xdxf"),
-    XDXF_FULL_NAME("full_name"),
-    XDXF_DESCRIPTION("description"),
-    ARTICLE("ar"),
-    ARTICLE_KEY("k"),
-    ABBREVIATIONS("abbreviations"),
-    ARTICLE_KEY_OPT("opt");
+    XDXF_FULL_NAME("full_name", XDXF),
+    XDXF_DESCRIPTION("description", XDXF),
+    ARTICLE("ar", XDXF),
+    ARTICLE_KEY("k", ARTICLE),
+    ABBREVIATIONS("abbreviations", XDXF),
+    ARTICLE_KEY_OPT("opt", ARTICLE_KEY),
+    ABBREVIATION_DEF("abr_def", ABBREVIATIONS),
+    ABBREVIATION_DEF_KEY("k", ABBREVIATION_DEF),
+    ABBREVIATION_DEF_VAL("v", ABBREVIATION_DEF);
 
     private String localPart;
+    private XDXFElement parent;
 
     private XDXFElement(String localPart) {
+        this(localPart, null);
+    }
+
+    private XDXFElement(String localPart, XDXFElement parent) {
         this.localPart = localPart;
+        this.parent = parent;
     }
 
     public String getLocalPart() {
@@ -50,13 +61,31 @@ public enum XDXFElement {
         return localPart.equals(name.getLocalPart());
     }
 
-    public static XDXFElement fromName(QName name) {
+    public XDXFElement getParent() {
+        return parent;
+    }
+
+    public int getDepth() {
+        int depth = 0;
+        XDXFElement el = this;
+        while (el.parent != null) {
+            depth++;
+            el = el.parent;
+        }
+        return depth;
+    }
+
+    public static XDXFElement fromName(XMLStreamReader xmlr, Set<XDXFElement> parents, boolean acceptRoot) throws ParseException {
         XDXFElement result = null;
         for (XDXFElement elem : values()) {
-            if (elem.getLocalPart().equals(name.getLocalPart())) {
+            boolean correctParent = elem.parent != null ? parents.contains(elem.parent) : acceptRoot;
+            if (correctParent && elem.getLocalPart().equals(xmlr.getLocalName())) {
                 result = elem;
                 break;
             }
+        }
+        if (result == null) {
+            throw new UnknownElementParserException(xmlr);
         }
         return result;
     }

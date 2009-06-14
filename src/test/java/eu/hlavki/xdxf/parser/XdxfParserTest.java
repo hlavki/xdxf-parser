@@ -12,6 +12,7 @@ import javax.xml.stream.XMLStreamReader;
 import javax.xml.stream.events.XMLEvent;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import sk.datalan.util.timer.ExecuteTimer;
 import static org.junit.Assert.*;
@@ -35,7 +36,7 @@ public class XdxfParserTest {
             parser.addXDXFEventListener(listener);
             ExecuteTimer timer = new ExecuteTimer();
             timer.start();
-            in = getClass().getResourceAsStream("/full-impl-test.xdxf");
+            in = getClass().getResourceAsStream("/test-dict.xdxf");
             parser.parse(in);
             timer.stop();
             System.out.println("Articles count: " + listener.getArticleCount());
@@ -75,7 +76,6 @@ public class XdxfParserTest {
         }
 
         public void onArticle(XDXFArticleEvent evt) {
-            System.out.println("Article: " + evt.getSource());
             articleCount++;
         }
 
@@ -89,6 +89,7 @@ public class XdxfParserTest {
     }
 
     @Test
+    @Ignore
     public void testInputFile() {
         InputStream in = getClass().getResourceAsStream("/full-impl-test.xdxf");
         XMLInputFactory xmlif = XMLInputFactory.newInstance();

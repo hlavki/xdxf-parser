@@ -20,6 +20,8 @@
  */
 package eu.hlavki.xdxf.parser.data;
 
+import java.util.Map;
+
 /**
  * 
  * @author Michal HLavac <hlavki@hlavki.eu>
@@ -31,6 +33,7 @@ public class XDXFDictionary {
     private final XDXFFormat format;
     private String fullName;
     private String description;
+    private Map<String, String> abbreviations;
 
     public XDXFDictionary(String srcLanguage, String targetanguage, XDXFFormat format) {
         this.srcLanguage = srcLanguage;
@@ -66,13 +69,28 @@ public class XDXFDictionary {
         this.fullName = fullName;
     }
 
+    public Map<String, String> getAbbreviations() {
+        return abbreviations;
+    }
+
+    public void setAbbreviations(Map<String, String> abbreviations) {
+        this.abbreviations = abbreviations;
+    }
+
     @Override
     public String toString() {
         StringBuffer sb = new StringBuffer("==============================================\n");
         sb.append("Source language: ").append(srcLanguage).append("\n");
         sb.append("Target language: ").append(targetLanguage).append("\n");
-        sb.append("Full Name: ").append(targetLanguage != null ? targetLanguage : "").append("\n");
-        sb.append("Description: ").append(description != null ? description : "").append("\n");
+        if (fullName != null) {
+            sb.append("Full Name: ").append(fullName).append("\n");
+        }
+        if (description != null) {
+            sb.append("Description: ").append(description).append("\n");
+        }
+        if (abbreviations != null) {
+            sb.append("Abbreviations: ").append(abbreviations).append("\n");
+        }
         sb.append("==============================================");
         return sb.toString();
     }

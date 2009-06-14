@@ -2,7 +2,7 @@
 <xdxf lang_from="ENG" lang_to="ENG" format="visual">
     <full_name>Webster's Unabridged Dictionary</full_name>
     <description>Webster's Unabridged Dictionary published 1913 by the... </description>
-    <!--abbreviations>
+    <abbreviations>
         <abr_def>
             <k>n.</k>
             <v>noun</v>
@@ -16,7 +16,7 @@
             <k>Ave.</k>
             <v>Avenue</v>
         </abr_def>
-    </abbreviations-->
+    </abbreviations>
 
     <ar>
         <k>
