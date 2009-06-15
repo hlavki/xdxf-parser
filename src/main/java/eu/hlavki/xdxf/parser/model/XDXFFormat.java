@@ -18,7 +18,7 @@
  * You should have received a copy of the GNU General Public License
  * along with XDXF Parser (jar).  If not, see <http://www.gnu.org/licenses/>.
  */
-package eu.hlavki.xdxf.parser.data;
+package eu.hlavki.xdxf.parser.model;
 
 /**
  * 

@@ -21,8 +21,8 @@
 package eu.hlavki.xdxf.parser;
 
 import static eu.hlavki.xdxf.parser.XDXFElement.*;
-import eu.hlavki.xdxf.parser.data.XDXFArticle;
-import eu.hlavki.xdxf.parser.data.XDXFDictionary;
+import eu.hlavki.xdxf.parser.model.XDXFArticle;
+import eu.hlavki.xdxf.parser.model.XDXFDictionary;
 import eu.hlavki.xdxf.parser.element.XDXFAbbreviationsElementParser;
 import eu.hlavki.xdxf.parser.element.XDXFArticleElementParser;
 import eu.hlavki.xdxf.parser.element.XDXFDescriptionElementParser;
