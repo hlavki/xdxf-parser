@@ -1,6 +1,6 @@
 package eu.hlavki.xdxf.parser;
 
-import eu.hlavki.xdxf.parser.data.XDXFDictionary;
+import eu.hlavki.xdxf.parser.model.XDXFDictionary;
 import eu.hlavki.xdxf.parser.event.XDXFArticleEvent;
 import eu.hlavki.xdxf.parser.event.XDXFDictionaryEvent;
 import eu.hlavki.xdxf.parser.event.XDXFEventListener;

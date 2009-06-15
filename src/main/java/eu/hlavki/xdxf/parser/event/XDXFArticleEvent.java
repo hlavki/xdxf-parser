@@ -20,7 +20,7 @@
  */
 package eu.hlavki.xdxf.parser.event;
 
-import eu.hlavki.xdxf.parser.data.XDXFArticle;
+import eu.hlavki.xdxf.parser.model.XDXFArticle;
 import java.util.EventObject;
 
 /**

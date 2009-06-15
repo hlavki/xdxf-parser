@@ -20,10 +20,10 @@
  */
 package eu.hlavki.xdxf.parser.element;
 
-import eu.hlavki.xdxf.parser.data.XDXFDictionary;
+import eu.hlavki.xdxf.parser.model.XDXFDictionary;
 import eu.hlavki.xdxf.parser.ParseException;
 import eu.hlavki.xdxf.parser.ParserUtil;
-import eu.hlavki.xdxf.parser.data.XDXFFormat;
+import eu.hlavki.xdxf.parser.model.XDXFFormat;
 import java.util.EnumSet;
 import java.util.Set;
 import javax.xml.stream.XMLStreamReader;
