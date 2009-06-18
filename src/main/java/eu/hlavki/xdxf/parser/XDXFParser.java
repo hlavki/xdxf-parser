@@ -35,6 +35,7 @@ import java.io.InputStream;
  * try  {
  *     XDXFParser parser = new DefaultXDXFParser();
  *     DictionaryListener listener = new DictionaryListener();
+ *     parser.addXDXFEventListener(listener);
  *     in = getClass().getResourceAsStream("/test-dict.xdxf");
  *     parser.parse(in);
  * } catch (ParseException e} {
