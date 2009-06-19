@@ -83,6 +83,33 @@ public class XdxfParserTest {
         }
     }
 
+    @Test
+    public void syncParsing() {
+        InputStream in = null;
+        try {
+            XDXFParser parser = new DefaultXDXFParser();
+            ExecuteTimer timer = new ExecuteTimer();
+            timer.start();
+            in = getClass().getResourceAsStream(LARGE_DISTIONARY);
+            XDXFDictionary dict = parser.parseDictionary(in);
+            timer.stop();
+            System.out.println("Parsing time: " + timer);
+            assertNotNull(dict);
+            assertNotNull(dict.getFullName());
+        } catch (ParseException e) {
+            e.printStackTrace();
+            fail();
+        } finally {
+            if (in != null) {
+                try {
+                    in.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
     private static class DictionaryListener implements XDXFEventListener {
 
         private int articleCount = 0;
