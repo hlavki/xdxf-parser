@@ -38,8 +38,8 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
@@ -83,8 +83,9 @@ public class DefaultXDXFParser implements XDXFParser {
         //get whole text data as one event.
         xmlif.setProperty(XMLInputFactory.IS_COALESCING, Boolean.FALSE);
         xmlif.setProperty(XMLInputFactory.SUPPORT_DTD, Boolean.FALSE);
+        XMLStreamReader xmlr = null;
         try {
-            XMLStreamReader xmlr = xmlif.createXMLStreamReader(in);
+            xmlr = xmlif.createXMLStreamReader(in);
             XDXFDictionary dict = null;
             while (xmlr.hasNext()) {
                 xmlr.next();
@@ -130,7 +131,85 @@ public class DefaultXDXFParser implements XDXFParser {
             }
         } catch (XMLStreamException e) {
             throw new ParseException(e);
+        } finally {
+            try {
+                if (xmlr != null) {
+                    xmlr.close();
+                }
+            } catch (XMLStreamException e) {
+                log.log(Level.SEVERE, e.getMessage(), e);
+            }
         }
+    }
+
+    public XDXFDictionary parseDictionary(File file) throws ParseException {
+        try {
+            return parseDictionary(new FileInputStream(file));
+        } catch (FileNotFoundException e) {
+            throw new ParseException(e);
+        }
+    }
+
+    public XDXFDictionary parseDictionary(InputStream in) throws ParseException {
+        XMLInputFactory xmlif = null;
+        xmlif = XMLInputFactory.newInstance();
+        xmlif.setProperty(XMLInputFactory.IS_REPLACING_ENTITY_REFERENCES, Boolean.TRUE);
+        xmlif.setProperty(XMLInputFactory.IS_SUPPORTING_EXTERNAL_ENTITIES, Boolean.FALSE);
+        //set the IS_COALESCING property to true , if application desires to
+        //get whole text data as one event.
+        xmlif.setProperty(XMLInputFactory.IS_COALESCING, Boolean.FALSE);
+        xmlif.setProperty(XMLInputFactory.SUPPORT_DTD, Boolean.FALSE);
+        XDXFDictionary dict = null;
+        XMLStreamReader xmlr = null;
+        try {
+            xmlr = xmlif.createXMLStreamReader(in);
+            boolean finish = false;
+            boolean[] parts = new boolean[]{false, false, false};
+            while (xmlr.hasNext() && !finish) {
+                xmlr.next();
+                if (xmlr.getEventType() == XMLEvent.START_ELEMENT) {
+                    XDXFElement el = XDXFElement.fromName(xmlr, ROOT_ELEM, true);
+                    switch (el) {
+                        case XDXF:
+                            ParserUtil.assertStartElement(xmlr, XDXF);
+                            dict = new XDXFElementParser().parseElement(xmlr);
+                            fireXdxfDictionaryEvent(dict);
+                            parts[0] = true;
+                            break;
+                        case XDXF_FULL_NAME:
+                            ParserUtil.assertStartElement(xmlr, XDXF_FULL_NAME);
+                            String fullName = new XDXFFullNameElementParser().parseElement(xmlr);
+                            dict.setFullName(fullName);
+                            ParserUtil.assertEndElement(xmlr, XDXF_FULL_NAME);
+                            fireXdxfDictionaryChangeEvent(dict);
+                            parts[1] = true;
+                            break;
+                        case XDXF_DESCRIPTION:
+                            ParserUtil.assertStartElement(xmlr, XDXF_DESCRIPTION);
+                            String desc = new XDXFDescriptionElementParser().parseElement(xmlr);
+                            dict.setDescription(desc);
+                            ParserUtil.assertEndElement(xmlr, XDXF_DESCRIPTION);
+                            fireXdxfDictionaryChangeEvent(dict);
+                            parts[2] = true;
+                            break;
+                    }
+                } else if (xmlr.getEventType() == XMLEvent.END_ELEMENT) {
+                    ParserUtil.assertEndElement(xmlr, XDXF);
+                }
+                finish = parts[0] && parts[1] && parts[2];
+            }
+        } catch (XMLStreamException e) {
+            throw new ParseException(e);
+        } finally {
+            try {
+                if (xmlr != null) {
+                    xmlr.close();
+                }
+            } catch (XMLStreamException e) {
+                log.log(Level.SEVERE, e.getMessage(), e);
+            }
+        }
+        return dict;
     }
 
     private void fireXdxfDictionaryEvent(XDXFDictionary dictionary) {

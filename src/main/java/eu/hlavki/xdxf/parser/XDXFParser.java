@@ -21,6 +21,7 @@
 package eu.hlavki.xdxf.parser;
 
 import eu.hlavki.xdxf.parser.event.XDXFEventListener;
+import eu.hlavki.xdxf.parser.model.XDXFDictionary;
 import java.io.File;
 import java.io.InputStream;
 
@@ -97,6 +98,24 @@ public interface XDXFParser {
      * e.g. invalid xdxf format or bug ;)
      */
     void parse(File file) throws ParseException;
+
+    /**
+     * Parse xdxf file only for dictionary information represented by {@link XDXFDictionary}.
+     * Articles are ignored. This operation should  be constantly fast for xdxf of every size.
+     * @param in input stream
+     * @return dictionary information (name, description, source language, target language)
+     * @throws ParseException parse exception is thrown when error occurs while parsing xdxf file
+     */
+    XDXFDictionary parseDictionary(InputStream in) throws ParseException;
+
+    /**
+     * Parse xdxf file only for dictionary information represented by {@link XDXFDictionary}.
+     * Articles are ignored. This operation should  be constantly fast for xdxf of every size.
+     * @param file input file
+     * @return dictionary information (name, description, source language, target language)
+     * @throws ParseException parse exception is thrown when error occurs while parsing xdxf file
+     */
+    XDXFDictionary parseDictionary(File file) throws ParseException;
 
     /**
      * Register event listener. For more information about events see {@link XDXFEventListener}
