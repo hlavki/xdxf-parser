@@ -26,7 +26,7 @@ import eu.hlavki.xdxf.parser.ParserUtil;
 import eu.hlavki.xdxf.parser.XDXFElement;
 import static eu.hlavki.xdxf.parser.XDXFElement.*;
 import eu.hlavki.xdxf.parser.model.XDXFArticle;
-import eu.hlavki.xdxf.parser.model.XDXFArticle.XDXFArticleKeyElement;
+import eu.hlavki.xdxf.parser.model.XDXFArticle.XDXFArticleKeyItem;
 import eu.hlavki.xdxf.parser.model.XDXFFormat;
 import java.util.EnumSet;
 import java.util.Set;
@@ -53,8 +53,13 @@ public class XDXFArticleElementParser implements ElementParser<XDXFArticle> {
             result.setFormat(XDXFFormat.fromRealName(formatStr));
         }
         try {
+            boolean readNext = true;
             while (!ParserUtil.checkFor(XMLEvent.END_ELEMENT, xmlr, ARTICLE)) {
-                xmlr.next(); // next fragment
+                if (readNext) {
+                    xmlr.next();
+                } else {
+                    readNext = true;
+                }
                 int eventType = xmlr.getEventType();
                 if (eventType == XMLEvent.START_ELEMENT) {
                     XDXFElement el = XDXFElement.fromName(xmlr, ARTICLE_PARENT_ELEMS, false);
@@ -68,26 +73,24 @@ public class XDXFArticleElementParser implements ElementParser<XDXFArticle> {
                                 if (ParserUtil.checkFor(XMLEvent.START_ELEMENT, xmlr, ARTICLE_KEY_OPT)) {
                                     xmlr.next(); // if <opt> element, move to characters
                                     String key = ParserUtil.readString(xmlr).trim();
-                                    result.addKeyElement(new XDXFArticleKeyElement(key, true));
+                                    result.addKeyElement(new XDXFArticleKeyItem(key, true));
                                     ParserUtil.assertEndElement(xmlr, ARTICLE_KEY_OPT);
                                     xmlr.next(); // move one step after </opt>
                                 } else if (xmlr.getEventType() == XMLEvent.CHARACTERS) {
                                     String key = ParserUtil.readString(xmlr).trim();
-                                    result.addKeyElement(new XDXFArticleKeyElement(key, false));
+                                    result.addKeyElement(new XDXFArticleKeyItem(key, false));
                                 } else {
                                     throw new InvalidSectionException(xmlr);
                                 }
                             }
                             ParserUtil.assertEndElement(xmlr, ARTICLE_KEY);
-                            xmlr.next();
-                            result.setTranslation(ParserUtil.readString(xmlr).trim());
                             break;
                         case ARTICLE_POS:
-                            result.setPartOfSpeech(xmlr.getElementText().trim());
+                            result.setPartOfSpeech(new XDXFArticlePosElementParser().parseElement(xmlr));
                             ParserUtil.assertEndElement(xmlr, ARTICLE_POS);
                             break;
                         case ARTICLE_TENSE:
-                            result.setPartOfSpeech(xmlr.getElementText().trim());
+                            result.setTense(xmlr.getElementText().trim());
                             ParserUtil.assertEndElement(xmlr, ARTICLE_TENSE);
                             break;
                         default:
@@ -101,7 +104,13 @@ public class XDXFArticleElementParser implements ElementParser<XDXFArticle> {
                             // do nothing
                             break;
                     }
-                } else if (eventType != XMLEvent.CHARACTERS) {
+                } else if (eventType == XMLEvent.CHARACTERS) {
+                    String val = ParserUtil.readString(xmlr).trim();
+                    readNext = false;
+                    if (ParserUtil.checkFor(XMLEvent.END_ELEMENT, xmlr, ARTICLE)) {
+                        result.setTranslation(val);
+                    }
+                } else {
                     throw new InvalidSectionException(xmlr);
                 }
             }
