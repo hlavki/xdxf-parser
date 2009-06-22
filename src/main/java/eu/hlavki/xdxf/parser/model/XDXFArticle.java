@@ -22,7 +22,6 @@ package eu.hlavki.xdxf.parser.model;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
 
 /**
  * 
@@ -31,13 +30,13 @@ import java.util.Set;
 public class XDXFArticle {
 
     private XDXFFormat format;
-    private List<XDXFArticleKeyElement> key;
+    private List<XDXFArticleKeyItem> key;
     private String translation;
-    private String partOfSpeech;
+    private XDXFArticlePosItem partOfSpeech;
     private String tense;
 
     public XDXFArticle() {
-        key = new LinkedList<XDXFArticleKeyElement>();
+        key = new LinkedList<XDXFArticleKeyItem>();
     }
 
     public XDXFFormat getFormat() {
@@ -48,11 +47,11 @@ public class XDXFArticle {
         this.format = format;
     }
 
-    public List<XDXFArticleKeyElement> getKey() {
+    public List<XDXFArticleKeyItem> getKey() {
         return key;
     }
 
-    public void addKeyElement(XDXFArticleKeyElement keyEl) {
+    public void addKeyElement(XDXFArticleKeyItem keyEl) {
         key.add(keyEl);
     }
 
@@ -64,11 +63,11 @@ public class XDXFArticle {
         this.translation = translation;
     }
 
-    public String getPartOfSpeech() {
+    public XDXFArticlePosItem getPartOfSpeech() {
         return partOfSpeech;
     }
 
-    public void setPartOfSpeech(String partOfSpeech) {
+    public void setPartOfSpeech(XDXFArticlePosItem partOfSpeech) {
         this.partOfSpeech = partOfSpeech;
     }
 
@@ -87,7 +86,7 @@ public class XDXFArticle {
 
     public String keyAsString() {
         StringBuffer sb = new StringBuffer();
-        for (XDXFArticleKeyElement el : key) {
+        for (XDXFArticleKeyItem el : key) {
             if (el.optional) {
                 sb.append("[");
             }
@@ -100,12 +99,12 @@ public class XDXFArticle {
         return sb.toString().trim();
     }
 
-    public static class XDXFArticleKeyElement {
+    public static class XDXFArticleKeyItem {
 
         private final String value;
         private final boolean optional;
 
-        public XDXFArticleKeyElement(String value, boolean optional) {
+        public XDXFArticleKeyItem(String value, boolean optional) {
             this.value = value;
             this.optional = optional;
         }
@@ -116,6 +115,30 @@ public class XDXFArticle {
 
         public String getValue() {
             return value;
+        }
+    }
+
+    public static class XDXFArticlePosItem {
+
+        private final String value;
+        private final boolean abbreviation;
+
+        public XDXFArticlePosItem(String value, boolean abbreviation) {
+            this.value = value;
+            this.abbreviation = abbreviation;
+        }
+
+        public boolean isAbbreviation() {
+            return abbreviation;
+        }
+
+        public String getValue() {
+            return value;
+        }
+
+        @Override
+        public String toString() {
+            return "{" + value + " | abbr: " + abbreviation + "}";
         }
     }
 }

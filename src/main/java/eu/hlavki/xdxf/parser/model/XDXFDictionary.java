@@ -77,6 +77,10 @@ public class XDXFDictionary {
         this.abbreviations = abbreviations;
     }
 
+    public String useAbbreviation(XDXFArticle.XDXFArticlePosItem item) {
+        return item.isAbbreviation() ? abbreviations.get(item.getValue()) : item.getValue();
+    }
+
     @Override
     public String toString() {
         StringBuffer sb = new StringBuffer("==============================================\n");
