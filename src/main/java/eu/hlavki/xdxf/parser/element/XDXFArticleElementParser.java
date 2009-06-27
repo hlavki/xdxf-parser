@@ -26,6 +26,7 @@ import eu.hlavki.xdxf.parser.ParserUtil;
 import eu.hlavki.xdxf.parser.XDXFElement;
 import static eu.hlavki.xdxf.parser.XDXFElement.*;
 import eu.hlavki.xdxf.parser.model.XDXFArticle;
+import eu.hlavki.xdxf.parser.model.XDXFArticle.XDXFArticleKey;
 import eu.hlavki.xdxf.parser.model.XDXFArticle.XDXFArticleKeyItem;
 import eu.hlavki.xdxf.parser.model.XDXFFormat;
 import java.util.EnumSet;
@@ -69,20 +70,22 @@ public class XDXFArticleElementParser implements ElementParser<XDXFArticle> {
                             break;
                         case ARTICLE_KEY:
                             xmlr.next();
+                            XDXFArticleKey key = new XDXFArticleKey();
                             while (!ParserUtil.checkFor(XMLEvent.END_ELEMENT, xmlr, ARTICLE_KEY)) {
                                 if (ParserUtil.checkFor(XMLEvent.START_ELEMENT, xmlr, ARTICLE_KEY_OPT)) {
                                     xmlr.next(); // if <opt> element, move to characters
-                                    String key = ParserUtil.readString(xmlr).trim();
-                                    result.addKeyElement(new XDXFArticleKeyItem(key, true));
+                                    String item = ParserUtil.readString(xmlr).trim();
+                                    key.addItem(new XDXFArticleKeyItem(item, true));
                                     ParserUtil.assertEndElement(xmlr, ARTICLE_KEY_OPT);
                                     xmlr.next(); // move one step after </opt>
                                 } else if (xmlr.getEventType() == XMLEvent.CHARACTERS) {
-                                    String key = ParserUtil.readString(xmlr).trim();
-                                    result.addKeyElement(new XDXFArticleKeyItem(key, false));
+                                    String item = ParserUtil.readString(xmlr).trim();
+                                    key.addItem(new XDXFArticleKeyItem(item, false));
                                 } else {
                                     throw new InvalidSectionException(xmlr);
                                 }
                             }
+                            result.addKey(key);
                             ParserUtil.assertEndElement(xmlr, ARTICLE_KEY);
                             break;
                         case ARTICLE_POS:

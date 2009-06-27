@@ -18,13 +18,13 @@
         </abr_def>
     </abbreviations>
 
-    <!--ar>
+    <ar>
         <k>
             <opt>The </opt>United States
             <opt> of America</opt>
         </k>
   Соединенные Штаты Америки
-    </ar-->
+    </ar>
     <ar><k>disc</k>
 <k>disk</k>
 <pos><abr>n.</abr></pos>
