@@ -20,6 +20,7 @@
  */
 package eu.hlavki.xdxf.parser.model;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -30,13 +31,13 @@ import java.util.List;
 public class XDXFArticle {
 
     private XDXFFormat format;
-    private List<XDXFArticleKeyItem> key;
+    private List<XDXFArticleKey> keys;
     private String translation;
     private XDXFArticlePosItem partOfSpeech;
     private String tense;
 
     public XDXFArticle() {
-        key = new LinkedList<XDXFArticleKeyItem>();
+        keys = new ArrayList<XDXFArticleKey>();
     }
 
     public XDXFFormat getFormat() {
@@ -47,12 +48,12 @@ public class XDXFArticle {
         this.format = format;
     }
 
-    public List<XDXFArticleKeyItem> getKey() {
-        return key;
+    public List<XDXFArticleKey> getKeys() {
+        return keys;
     }
 
-    public void addKeyElement(XDXFArticleKeyItem keyEl) {
-        key.add(keyEl);
+    public void addKey(XDXFArticleKey key) {
+        keys.add(key);
     }
 
     public String getTranslation() {
@@ -81,22 +82,61 @@ public class XDXFArticle {
 
     @Override
     public String toString() {
-        return "Article[" + keyAsString() + " => " + translation + "]";
+        return "Article[" + keysToString() + " => " + translation + "]";
     }
 
-    public String keyAsString() {
+    protected String keysToString() {
         StringBuffer sb = new StringBuffer();
-        for (XDXFArticleKeyItem el : key) {
-            if (el.optional) {
-                sb.append("[");
-            }
-            sb.append(el.value);
-            if (el.optional) {
-                sb.append("]");
-            }
-            sb.append(" ");
+        int size = keys.size(), idx = 0;
+        for (XDXFArticleKey key : keys) {
+            sb.append(key.toString());
+            if (idx < size - 1) sb.append('|');
+            idx++;
         }
-        return sb.toString().trim();
+        return sb.toString();
+    }
+
+    public static class XDXFArticleKey {
+
+        List<XDXFArticleKeyItem> items;
+
+        public XDXFArticleKey() {
+            items = new LinkedList<XDXFArticleKeyItem>();
+        }
+
+        public void addItem(XDXFArticleKeyItem item) {
+            items.add(item);
+        }
+
+        public String toString(boolean optional) {
+            return toString(optional, ' ');
+        }
+
+        public String toString(boolean optional, char optMark) {
+            return toString(optional, optMark, optMark);
+        }
+
+        public String toString(boolean optional, char startOptMark, char endOptMark) {
+            StringBuffer sb = new StringBuffer();
+            for (XDXFArticleKeyItem el : items) {
+                if (!el.optional || (el.optional && optional)) {
+                    if (el.optional) {
+                        sb.append(startOptMark);
+                    }
+                    sb.append(el.value);
+                    if (el.optional) {
+                        sb.append(endOptMark);
+                    }
+                    sb.append(" ");
+                }
+            }
+            return sb.toString().trim();
+        }
+
+        @Override
+        public String toString() {
+            return toString(true, '(', ')');
+        }
     }
 
     public static class XDXFArticleKeyItem {

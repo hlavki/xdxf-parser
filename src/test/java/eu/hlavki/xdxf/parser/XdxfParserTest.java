@@ -33,7 +33,7 @@ public class XdxfParserTest {
     @Test
     public void parserLargeButFeatureLessDictionary() {
         DictionaryListener listener = new DictionaryListener();
-        parseXDXFDictionary(LARGE_DISTIONARY, listener);
+        parseXDXFDictionary(LARGE_DISTIONARY, listener, "parserLargeButFeatureLessDictionary");
         System.out.println("Articles count: " + listener.getArticleCount());
         XDXFDictionary dictionary = listener.getDictionary();
         assertNotNull(dictionary);
@@ -46,8 +46,8 @@ public class XdxfParserTest {
 
     @Test
     public void parserFeatureFullDictionary() {
-        DictionaryListener listener = new DictionaryListener();
-        parseXDXFDictionary(FEATURE_FULL_DISTIONARY, listener);
+        DictionaryListener listener = new ArticleDictionaryListener();
+        parseXDXFDictionary(FEATURE_FULL_DISTIONARY, listener, "parserFeatureFullDictionary");
         System.out.println("Articles count: " + listener.getArticleCount());
         XDXFDictionary dictionary = listener.getDictionary();
         assertNotNull(dictionary);
@@ -55,15 +55,15 @@ public class XdxfParserTest {
         assertNotNull(dictionary.getTargetLanguage());
         assertNotNull(dictionary.getFullName());
         assertNotNull(dictionary.getFormat());
-        assertTrue(listener.getArticleCount() == 1);
+        assertTrue(listener.getArticleCount() > 1);
     }
 
-    public void parseXDXFDictionary(String resource, XDXFEventListener listener) {
+    public void parseXDXFDictionary(String resource, XDXFEventListener listener, String testName) {
         InputStream in = null;
         try {
             XDXFParser parser = new DefaultXDXFParser();
             parser.addXDXFEventListener(listener);
-            ExecuteTimer timer = new ExecuteTimer();
+            ExecuteTimer timer = new ExecuteTimer(testName);
             timer.start();
             in = getClass().getResourceAsStream(resource);
             parser.parse(in);
@@ -88,7 +88,7 @@ public class XdxfParserTest {
         InputStream in = null;
         try {
             XDXFParser parser = new DefaultXDXFParser();
-            ExecuteTimer timer = new ExecuteTimer();
+            ExecuteTimer timer = new ExecuteTimer("syncParsing");
             timer.start();
             in = getClass().getResourceAsStream(LARGE_DISTIONARY);
             XDXFDictionary dict = parser.parseDictionary(in);
@@ -133,6 +133,15 @@ public class XdxfParserTest {
 
         public XDXFDictionary getDictionary() {
             return dictionary;
+        }
+    }
+
+    private static class ArticleDictionaryListener extends DictionaryListener {
+
+        @Override
+        public void onArticle(XDXFArticleEvent evt) {
+            super.onArticle(evt);
+            System.out.println(evt.getSource());
         }
     }
 
