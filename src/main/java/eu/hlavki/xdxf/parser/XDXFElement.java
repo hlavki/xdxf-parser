@@ -42,7 +42,8 @@ public enum XDXFElement {
     ABBREVIATION_DEF_VAL("v", ABBREVIATION_DEF),
     ARTICLE_POS("pos", ARTICLE),
     ARTICLE_TENSE("tense", ARTICLE),
-    ARTICLE_POS_ABBR("abr", ARTICLE_POS);
+    ARTICLE_POS_ABBR("abr", ARTICLE_POS),
+    ARTICLE_TR("tr", ARTICLE);
 
     private String localPart;
     private XDXFElement parent;

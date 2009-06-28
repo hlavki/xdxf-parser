@@ -17,7 +17,6 @@
             <v>Avenue</v>
         </abr_def>
     </abbreviations>
-
     <ar>
         <k>
             <opt>The </opt>United States
@@ -28,6 +27,7 @@
     <ar><k>disc</k>
 <k>disk</k>
 <pos><abr>n.</abr></pos>
+<tr>disk</tr>
 A flat, circular plate; as, a disk of metal or paper.</ar>
 
 </xdxf>

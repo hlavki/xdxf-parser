@@ -96,6 +96,10 @@ public class XDXFArticleElementParser implements ElementParser<XDXFArticle> {
                             result.setTense(xmlr.getElementText().trim());
                             ParserUtil.assertEndElement(xmlr, ARTICLE_TENSE);
                             break;
+                        case ARTICLE_TR:
+                            result.setTranscription(xmlr.getElementText().trim());
+                            ParserUtil.assertEndElement(xmlr, ARTICLE_TR);
+                            break;
                         default:
                             throw new InvalidSectionException(xmlr);
 
