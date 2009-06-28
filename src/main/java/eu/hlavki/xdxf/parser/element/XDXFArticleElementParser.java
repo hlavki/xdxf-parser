@@ -28,6 +28,7 @@ import static eu.hlavki.xdxf.parser.XDXFElement.*;
 import eu.hlavki.xdxf.parser.model.XDXFArticle;
 import eu.hlavki.xdxf.parser.model.XDXFArticle.XDXFArticleKey;
 import eu.hlavki.xdxf.parser.model.XDXFArticle.XDXFArticleKeyItem;
+import eu.hlavki.xdxf.parser.model.XDXFArticle.XDXFArticleKeyItemType;
 import eu.hlavki.xdxf.parser.model.XDXFFormat;
 import java.util.EnumSet;
 import java.util.Set;
@@ -75,12 +76,18 @@ public class XDXFArticleElementParser implements ElementParser<XDXFArticle> {
                                 if (ParserUtil.checkFor(XMLEvent.START_ELEMENT, xmlr, ARTICLE_KEY_OPT)) {
                                     xmlr.next(); // if <opt> element, move to characters
                                     String item = ParserUtil.readString(xmlr).trim();
-                                    key.addItem(new XDXFArticleKeyItem(item, true));
+                                    key.addItem(new XDXFArticleKeyItem(item, XDXFArticleKeyItemType.OPTIONAL));
                                     ParserUtil.assertEndElement(xmlr, ARTICLE_KEY_OPT);
+                                    xmlr.next(); // move one step after </opt>
+                                } else if (ParserUtil.checkFor(XMLEvent.START_ELEMENT, xmlr, ARTICLE_KEY_NU)) {
+                                    xmlr.next(); // if <opt> element, move to characters
+                                    String item = ParserUtil.readString(xmlr).trim();
+                                    key.addItem(new XDXFArticleKeyItem(item, XDXFArticleKeyItemType.NOT_USED));
+                                    ParserUtil.assertEndElement(xmlr, ARTICLE_KEY_NU);
                                     xmlr.next(); // move one step after </opt>
                                 } else if (xmlr.getEventType() == XMLEvent.CHARACTERS) {
                                     String item = ParserUtil.readString(xmlr).trim();
-                                    key.addItem(new XDXFArticleKeyItem(item, false));
+                                    key.addItem(new XDXFArticleKeyItem(item));
                                 } else {
                                     throw new InvalidSectionException(xmlr);
                                 }
