@@ -35,6 +35,7 @@ public class XDXFArticle {
     private String translation;
     private XDXFArticlePosItem partOfSpeech;
     private String tense;
+    private String transcription;
 
     public XDXFArticle() {
         keys = new ArrayList<XDXFArticleKey>();
@@ -78,6 +79,14 @@ public class XDXFArticle {
 
     public void setTense(String tense) {
         this.tense = tense;
+    }
+
+    public String getTranscription() {
+        return transcription;
+    }
+
+    public void setTranscription(String transcription) {
+        this.transcription = transcription;
     }
 
     @Override
