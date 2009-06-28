@@ -99,7 +99,9 @@ public class XDXFArticle {
         int size = keys.size(), idx = 0;
         for (XDXFArticleKey key : keys) {
             sb.append(key.toString());
-            if (idx < size - 1) sb.append('|');
+            if (idx < size - 1) {
+                sb.append('|');
+            }
             idx++;
         }
         return sb.toString();
@@ -128,12 +130,12 @@ public class XDXFArticle {
         public String toString(boolean optional, char startOptMark, char endOptMark) {
             StringBuffer sb = new StringBuffer();
             for (XDXFArticleKeyItem el : items) {
-                if (!el.optional || (el.optional && optional)) {
-                    if (el.optional) {
+                if (!el.isOptional() || (el.isOptional() && optional)) {
+                    if (el.isOptional()) {
                         sb.append(startOptMark);
                     }
                     sb.append(el.value);
-                    if (el.optional) {
+                    if (el.isOptional()) {
                         sb.append(endOptMark);
                     }
                     sb.append(" ");
@@ -148,22 +150,39 @@ public class XDXFArticle {
         }
     }
 
+    public enum XDXFArticleKeyItemType {
+
+        NORMAL, OPTIONAL, NOT_USED;
+    }
+
     public static class XDXFArticleKeyItem {
 
         private final String value;
-        private final boolean optional;
+        private final XDXFArticleKeyItemType type;
 
-        public XDXFArticleKeyItem(String value, boolean optional) {
-            this.value = value;
-            this.optional = optional;
+        public XDXFArticleKeyItem(String value) {
+            this(value, XDXFArticleKeyItemType.NORMAL);
         }
 
-        public boolean isOptional() {
-            return optional;
+        public XDXFArticleKeyItem(String value, XDXFArticleKeyItemType type) {
+            this.value = value;
+            this.type = type;
+        }
+
+        public XDXFArticleKeyItemType getType() {
+            return type;
         }
 
         public String getValue() {
             return value;
+        }
+
+        public boolean isOptional() {
+            return type == XDXFArticleKeyItemType.OPTIONAL;
+        }
+
+        public boolean isNotUsed() {
+            return type == XDXFArticleKeyItemType.NOT_USED;
         }
     }
 

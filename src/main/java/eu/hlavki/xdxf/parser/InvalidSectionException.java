@@ -20,6 +20,7 @@
  */
 package eu.hlavki.xdxf.parser;
 
+import javax.xml.namespace.QName;
 import javax.xml.stream.Location;
 import javax.xml.stream.XMLStreamReader;
 
@@ -44,11 +45,12 @@ public class InvalidSectionException extends ParseException {
         super("Unknown " + type + " element " + foundEl + " found but expected " + expectedEl.toString() + " @ " + location);
     }
 
-    public InvalidSectionException(int eventType, Location location) {
-        super("Unknown section in xdxf format (eventType = " + eventType + ") @ location " + location);
+    public InvalidSectionException(int eventType, Location location, QName name) {
+        super("Unknown section in xdxf format (eventType = " + eventType + 
+                (name != null ? " name: " + name : "") + " ) @ location " + location);
     }
 
     public InvalidSectionException(XMLStreamReader xmlr) {
-        this(xmlr.getEventType(), xmlr.getLocation());
+        this(xmlr.getEventType(), xmlr.getLocation(), xmlr.hasName() ? xmlr.getName() : null);
     }
 }
