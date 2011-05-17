@@ -21,7 +21,6 @@
 package eu.hlavki.xdxf.parser;
 
 import eu.hlavki.xdxf.parser.InvalidSectionException.ElementType;
-import java.util.Set;
 import javax.xml.namespace.QName;
 import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamException;
@@ -77,7 +76,7 @@ public class ParserUtil {
     }
 
     public static String readString(XMLStreamReader xmlr) throws XMLStreamException {
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         while (xmlr.getEventType() == XMLStreamConstants.CHARACTERS) {
             sb.append(xmlr.getText());
             xmlr.next();
