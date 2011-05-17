@@ -87,6 +87,7 @@ public class DefaultXDXFParser implements XDXFParser {
         try {
             xmlr = xmlif.createXMLStreamReader(in);
             XDXFDictionary dict = null;
+            fireXdxfStartEvent();
             while (xmlr.hasNext()) {
                 xmlr.next();
                 if (xmlr.getEventType() == XMLEvent.START_ELEMENT) {
@@ -133,6 +134,11 @@ public class DefaultXDXFParser implements XDXFParser {
             throw new ParseException(e);
         } finally {
             try {
+                fireXdxfFinishEvent();
+            } catch (Exception e) {
+                log.log(Level.SEVERE, "Exception occurs when firing onFinish event", e);
+            }
+            try {
                 if (xmlr != null) {
                     xmlr.close();
                 }
@@ -165,6 +171,7 @@ public class DefaultXDXFParser implements XDXFParser {
             xmlr = xmlif.createXMLStreamReader(in);
             boolean finish = false;
             boolean[] parts = new boolean[]{false, false, false};
+            fireXdxfStartEvent();
             while (xmlr.hasNext() && !finish) {
                 xmlr.next();
                 if (xmlr.getEventType() == XMLEvent.START_ELEMENT) {
@@ -202,6 +209,11 @@ public class DefaultXDXFParser implements XDXFParser {
             throw new ParseException(e);
         } finally {
             try {
+                fireXdxfFinishEvent();
+            } catch (Exception e) {
+                log.log(Level.SEVERE, "Exception occurs when firing onFinish event", e);
+            }
+            try {
                 if (xmlr != null) {
                     xmlr.close();
                 }
@@ -230,6 +242,18 @@ public class DefaultXDXFParser implements XDXFParser {
         XDXFArticleEvent evt = new XDXFArticleEvent(article);
         for (XDXFEventListener listener : xdxfEventListeners) {
             listener.onArticle(evt);
+        }
+    }
+
+    private void fireXdxfStartEvent() {
+        for (XDXFEventListener listener : xdxfEventListeners) {
+            listener.onStart();
+        }
+    }
+
+    private void fireXdxfFinishEvent() {
+        for (XDXFEventListener listener : xdxfEventListeners) {
+            listener.onFinish();
         }
     }
 

@@ -134,6 +134,14 @@ public class XdxfParserTest {
         public XDXFDictionary getDictionary() {
             return dictionary;
         }
+
+        public void onStart() {
+            System.out.println("Starting...");
+        }
+
+        public void onFinish() {
+            System.out.println("Finished");
+        }
     }
 
     private static class ArticleDictionaryListener extends DictionaryListener {
