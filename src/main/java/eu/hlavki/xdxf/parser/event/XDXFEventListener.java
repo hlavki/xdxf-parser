@@ -31,4 +31,8 @@ public interface XDXFEventListener {
     void onDictionaryChange(XDXFDictionaryEvent evt);
 
     void onArticle(XDXFArticleEvent evt);
+    
+    void onStart();
+    
+    void onFinish();
 }
