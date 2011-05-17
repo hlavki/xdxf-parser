@@ -34,15 +34,21 @@ public class InvalidSectionException extends ParseException {
 
     public enum ElementType {
 
-        START, END
+        START, END;
+
+        public String toString(String elem) {
+            return "<" + (this.equals(END) ? "/" : "") + elem + ">";
+        }
     }
 
     public InvalidSectionException(ElementType type, String foundEl, String expectedEl, Location location) {
-        super("Unknown " + type + " element " + foundEl + " found but expected " + expectedEl + " @ " + location);
+        super("Unknown " + type + " element " + type.toString(foundEl) + " found, but expected " +
+                type.toString(expectedEl) + " @ " + location);
     }
 
     public InvalidSectionException(ElementType type, String foundEl, XDXFElement expectedEl, Location location) {
-        super("Unknown " + type + " element " + foundEl + " found but expected " + expectedEl.toString() + " @ " + location);
+        super("Unknown " + type + " element " + type.toString(foundEl) + " found, but expected " +
+                type.toString(expectedEl.getLocalPart()) + " @ " + location);
     }
 
     public InvalidSectionException(int eventType, Location location, QName name) {
