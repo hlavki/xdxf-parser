@@ -45,7 +45,6 @@ public enum XDXFElement {
     ARTICLE_TENSE("tense", ARTICLE),
     ARTICLE_POS_ABBR("abr", ARTICLE_POS),
     ARTICLE_TR("tr", ARTICLE);
-
     private String localPart;
     private XDXFElement parent;
 
@@ -80,7 +79,8 @@ public enum XDXFElement {
         return depth;
     }
 
-    public static XDXFElement fromName(XMLStreamReader xmlr, Set<XDXFElement> parents, boolean acceptRoot) throws ParseException {
+    public static XDXFElement fromName(XMLStreamReader xmlr, Set<XDXFElement> parents, boolean acceptRoot) 
+            throws ParseException {
         XDXFElement result = null;
         for (XDXFElement elem : values()) {
             boolean correctParent = elem.parent != null ? parents.contains(elem.parent) : acceptRoot;
