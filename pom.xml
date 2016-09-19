@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>eu.hlavki.xdxf</groupId>
     <artifactId>xdxf-parser</artifactId>
@@ -37,13 +37,10 @@
     </scm>
     <repositories>
         <repository>
-            <id>datalan-ext-repo</id>
-            <name>Datalan's proxy repository</name>
+            <id>datalan-releases</id>
+            <name>Datalan's releases repository</name>
+            <url>http://maven.datalan.sk/content/repositories/releases/</url>
             <layout>default</layout>
-            <url>https://mvn.datalan.sk/artifactory/libs-releases-local</url>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
         </repository>
     </repositories>
     <distributionManagement>
