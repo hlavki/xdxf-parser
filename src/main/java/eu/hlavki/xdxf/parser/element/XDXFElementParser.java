@@ -30,7 +30,7 @@ import javax.xml.stream.XMLStreamReader;
 
 /**
  *
- * @author Michal HLavac <hlavki@hlavki.eu>
+ * @author Michal HLavac
  */
 public class XDXFElementParser implements ElementParser<XDXFDictionary> {
 

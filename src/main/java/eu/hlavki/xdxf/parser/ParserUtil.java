@@ -27,8 +27,8 @@ import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 
 /**
- * 
- * @author Michal HLavac <hlavki@hlavki.eu>
+ *
+ * @author Michal HLavac
  */
 public class ParserUtil {
 
@@ -47,6 +47,7 @@ public class ParserUtil {
 
     /**
      * check for event type which contains name
+     *
      * @throws ParseException
      */
     public static boolean checkFor(int eventType, XMLStreamReader xmlr, XDXFElement el) {
@@ -55,6 +56,7 @@ public class ParserUtil {
 
     /**
      * check for start element
+     *
      * @throws ParseException
      */
     public static void assertStartElement(XMLStreamReader xmlr, XDXFElement el) throws ParseException {
@@ -66,6 +68,7 @@ public class ParserUtil {
 
     /**
      * check for end element
+     *
      * @throws ParseException
      */
     public static void assertEndElement(XMLStreamReader xmlr, XDXFElement el) throws ParseException {

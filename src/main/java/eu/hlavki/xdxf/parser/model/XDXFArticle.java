@@ -26,7 +26,7 @@ import java.util.List;
 
 /**
  * 
- * @author Michal HLavac <hlavki@hlavki.eu>
+ * @author Michal Hlavac
  */
 public class XDXFArticle {
 

@@ -25,7 +25,7 @@ import java.util.EventObject;
 
 /**
  *
- * @author Michal HLavac <hlavki@hlavki.eu>
+ * @author Michal HLavac
  */
 public class XDXFArticleEvent extends EventObject {
 

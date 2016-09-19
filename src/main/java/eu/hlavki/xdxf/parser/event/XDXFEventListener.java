@@ -22,7 +22,7 @@ package eu.hlavki.xdxf.parser.event;
 
 /**
  * 
- * @author Michal HLavac <hlavki@hlavki.eu>
+ * @author Michal HLavac
  */
 public interface XDXFEventListener {
 

@@ -22,7 +22,7 @@ package eu.hlavki.xdxf.parser;
 
 /**
  * Parse exception hanle parser errors e.g. invalid xdxf format, possible bugs
- * @author Michal HLavac <hlavki@hlavki.eu>
+ * @author Michal HLavac
  */
 public class ParseException extends Exception {
 

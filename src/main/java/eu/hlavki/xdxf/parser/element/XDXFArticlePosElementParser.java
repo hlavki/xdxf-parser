@@ -35,7 +35,7 @@ import javax.xml.stream.events.XMLEvent;
 
 /**
  *
- * @author Michal HLavac <hlavki@hlavki.eu>
+ * @author Michal HLavac
  */
 public class XDXFArticlePosElementParser implements ElementParser<XDXFArticle.XDXFArticlePosItem> {
 

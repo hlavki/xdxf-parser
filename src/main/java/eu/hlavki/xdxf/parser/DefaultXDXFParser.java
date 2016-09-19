@@ -46,10 +46,6 @@ import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 import javax.xml.stream.events.XMLEvent;
 
-/**
- *
- * @author Michal Hlavac <hlavki@hlavki.eu>
- */
 public class DefaultXDXFParser implements XDXFParser {
 
     private static final Logger log = Logger.getLogger(DefaultXDXFParser.class.getName());
