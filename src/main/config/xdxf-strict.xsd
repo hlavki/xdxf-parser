@@ -1,0 +1,249 @@
+
+<schema
+  xmlns='http://www.w3.org/2000/10/XMLSchema'
+  targetNamespace='http://www.w3.org/namespace/'
+  xmlns:t='http://www.w3.org/namespace/'>
+
+    <element name='xdxf'>
+        <complexType>
+            <sequence>
+                <element ref='t:full_name'/>
+                <element ref='t:description'/>
+                <element ref='t:abbreviations' minOccurs='0' maxOccurs='1'/>
+                <element ref='t:ar' maxOccurs='unbounded'/>
+            </sequence>
+            <attribute name='format' use='required'>
+                <simpleType>
+                    <restriction base='string'>
+                        <enumeration value='visual'/>
+                        <enumeration value='logical'/>
+                    </restriction>
+                </simpleType>
+            </attribute>
+        </complexType>
+    </element>
+
+    <element name='full_name'>
+        <complexType mixed='true'>
+        </complexType>
+    </element>
+
+    <element name='description'>
+        <complexType mixed='true'>
+        </complexType>
+    </element>
+
+    <element name='abbreviations'>
+        <complexType>
+            <sequence>
+                <element ref='t:abr_def' maxOccurs='unbounded'/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <element name='abr_def'>
+        <complexType>
+            <sequence>
+                <element ref='t:k' maxOccurs='unbounded'/>
+                <element ref='t:v'/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <element name='v'>
+        <complexType mixed='true'>
+        </complexType>
+    </element>
+
+    <element name='ar'>
+        <complexType mixed='true'>
+            <choice minOccurs='0' maxOccurs='unbounded'>
+                <element ref='t:k'/>
+                <element ref='t:def'/>
+                <element ref='t:pos'/>
+                <element ref='t:tense'/>
+                <element ref='t:tr'/>
+                <element ref='t:dtrn'/>
+                <element ref='t:kref'/>
+                <element ref='t:rref'/>
+                <element ref='t:iref'/>
+                <element ref='t:abr'/>
+                <element ref='t:c'/>
+                <element ref='t:ex'/>
+                <element ref='t:co'/>
+                <element ref='t:i'/>
+                <element ref='t:b'/>
+            </choice>
+            <attribute name='f' use='optional'>
+                <simpleType>
+                    <restriction base='string'>
+                        <enumeration value='v'/>
+                        <enumeration value='l'/>
+                    </restriction>
+                </simpleType>
+            </attribute>
+        </complexType>
+    </element>
+
+    <element name='i'>
+        <complexType mixed='true'>
+            <choice minOccurs='0' maxOccurs='unbounded'>
+                <element ref='t:c'/>
+                <element ref='t:sup'/>
+                <element ref='t:sub'/>
+            </choice>
+        </complexType>
+    </element>
+
+    <element name='b'>
+        <complexType mixed='true'>
+            <choice minOccurs='0' maxOccurs='unbounded'>
+                <element ref='t:c'/>
+                <element ref='t:sup'/>
+                <element ref='t:sub'/>
+            </choice>
+        </complexType>
+    </element>
+
+    <element name='k'>
+        <complexType mixed='true'>
+            <sequence minOccurs='0' maxOccurs='unbounded'>
+                <element ref='t:opt'/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <element name='opt'>
+        <complexType mixed='true'>
+        </complexType>
+    </element>
+
+    <element name='def'>
+        <complexType mixed='true'>
+            <choice minOccurs='0' maxOccurs='unbounded'>
+                <element ref='t:k'/>
+                <element ref='t:def'/>
+                <element ref='t:pos'/>
+                <element ref='t:tense'/>
+                <element ref='t:tr'/>
+                <element ref='t:dtrn'/>
+                <element ref='t:kref'/>
+                <element ref='t:rref'/>
+                <element ref='t:iref'/>
+                <element ref='t:abr'/>
+                <element ref='t:c'/>
+                <element ref='t:ex'/>
+                <element ref='t:co'/>
+                <element ref='t:i'/>
+                <element ref='t:b'/>
+            </choice>
+        </complexType>
+    </element>
+
+    <element name='pos'>
+        <complexType mixed='true'>
+            <sequence minOccurs='0' maxOccurs='unbounded'>
+                <element ref='t:abr'/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <element name='tense'>
+        <complexType mixed='true'>
+        </complexType>
+    </element>
+
+    <element name='tr'>
+        <complexType mixed='true'>
+        </complexType>
+    </element>
+
+    <element name='dtrn'>
+        <complexType mixed='true'>
+            <choice minOccurs='0' maxOccurs='unbounded'>
+                <element ref='t:kref'/>
+                <element ref='t:sup'/>
+                <element ref='t:sub'/>
+                <element ref='t:i'/>
+                <element ref='t:b'/>
+            </choice>
+        </complexType>
+    </element>
+
+    <element name='kref'>
+        <complexType mixed='true'>
+        </complexType>
+    </element>
+
+    <element name='rref'>
+        <complexType mixed='true'>
+        </complexType>
+    </element>
+
+    <element name='iref'>
+        <complexType mixed='true'>
+        </complexType>
+    </element>
+
+    <element name='abr'>
+        <complexType mixed='true'>
+        </complexType>
+    </element>
+
+    <element name='c'>
+        <complexType mixed='true'>
+            <choice minOccurs='0' maxOccurs='unbounded'>
+                <element ref='t:dtrn'/>
+                <element ref='t:co'/>
+                <element ref='t:ex'/>
+                <element ref='t:i'/>
+                <element ref='t:b'/>
+            </choice>
+            <attribute name='c' type='string' use='optional'/>
+        </complexType>
+    </element>
+
+    <element name='ex'>
+        <complexType mixed='true'>
+            <choice minOccurs='0' maxOccurs='unbounded'>
+                <element ref='t:kref'/>
+                <element ref='t:co'/>
+                <element ref='t:sup'/>
+                <element ref='t:sub'/>
+                <element ref='t:i'/>
+                <element ref='t:b'/>
+            </choice>
+        </complexType>
+    </element>
+
+    <element name='co'>
+        <complexType mixed='true'>
+            <choice minOccurs='0' maxOccurs='unbounded'>
+                <element ref='t:kref'/>
+                <element ref='t:c'/>
+                <element ref='t:sup'/>
+                <element ref='t:sub'/>
+                <element ref='t:b'/>
+                <element ref='t:i'/>
+            </choice>
+        </complexType>
+    </element>
+
+    <element name='sup'>
+        <complexType mixed='true'>
+            <choice minOccurs='0' maxOccurs='unbounded'>
+                <element ref='t:b'/>
+                <element ref='t:i'/>
+            </choice>
+        </complexType>
+    </element>
+
+    <element name='sub'>
+        <complexType mixed='true'>
+            <choice minOccurs='0' maxOccurs='unbounded'>
+                <element ref='t:b'/>
+                <element ref='t:i'/>
+            </choice>
+        </complexType>
+    </element>
+</schema>
