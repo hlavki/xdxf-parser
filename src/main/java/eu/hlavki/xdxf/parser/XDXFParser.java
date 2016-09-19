@@ -27,10 +27,11 @@ import java.io.InputStream;
 
 /**
  * Denfines event based parser interface. You can add|remove one or more listneners using
- * {@link addXDXFEventListener(XDXFEventListener)}|{@link removeXDXFEventListener(XDXFEventListener)} methods.<br/>
- * Every registered listener is notified about new events from xdxf dictionary objects such as dictionary, aricle,
- * abbreviations.<br/><br/>
- * Parser sample usage:<br/>
+ * {@link #addXDXFEventListener(XDXFEventListener)}|{@link #removeXDXFEventListener(XDXFEventListener)}
+ * methods.<br>
+ * Every registered listener is notified about new events from xdxf dictionary objects such as dictionary,
+ * aricle, abbreviations.<br><br>
+ * Parser sample usage:<br>
  * <pre>
  * InputStream in = null;
  * try  {
@@ -48,8 +49,7 @@ import java.io.InputStream;
  *         // should never happened
  *     }
  * }
- * </pre>
- * {@code DictionaryListener} sample code:<br/>
+ * </pre> {@code DictionaryListener} sample code:<br>
  * <pre>
  *     private static class DictionaryListener implements XDXFEventListener {
  *
@@ -77,6 +77,7 @@ import java.io.InputStream;
  *         }
  *     }
  * </pre>
+ *
  * @author Michal Hlavac
  */
 public interface XDXFParser {
@@ -84,24 +85,27 @@ public interface XDXFParser {
     /**
      * Parse xdxf dictionary file. You can listen on events while parser is reading file. For more information
      * about events see {@link XDXFEventListener}.
+     *
      * @param in input stream for xdxf dictionary. Stream is not closed after parsing!
-     * @throws ParseException parse exception is thrown when error occurs while parsing xdxf file
-     * e.g. invalid xdxf format or bug ;)
+     * @throws ParseException parse exception is thrown when error occurs while parsing xdxf file e.g. invalid
+     * xdxf format or bug ;)
      */
     void parse(InputStream in) throws ParseException;
 
     /**
      * Parse xdxf dictionary file. You can listen on events while parser is reading file. For more information
      * about events see {@link XDXFEventListener}.
+     *
      * @param file xdxf dictionary file
-     * @throws ParseException parse exception is thrown when error occurs while parsing xdxf file
-     * e.g. invalid xdxf format or bug ;)
+     * @throws ParseException parse exception is thrown when error occurs while parsing xdxf file e.g. invalid
+     * xdxf format or bug ;)
      */
     void parse(File file) throws ParseException;
 
     /**
-     * Parse xdxf file only for dictionary information represented by {@link XDXFDictionary}.
-     * Articles are ignored. This operation should  be constantly fast for xdxf of every size.
+     * Parse xdxf file only for dictionary information represented by {@link XDXFDictionary}. Articles are
+     * ignored. This operation should be constantly fast for xdxf of every size.
+     *
      * @param in input stream
      * @return dictionary information (name, description, source language, target language)
      * @throws ParseException parse exception is thrown when error occurs while parsing xdxf file
@@ -109,8 +113,9 @@ public interface XDXFParser {
     XDXFDictionary parseDictionary(InputStream in) throws ParseException;
 
     /**
-     * Parse xdxf file only for dictionary information represented by {@link XDXFDictionary}.
-     * Articles are ignored. This operation should  be constantly fast for xdxf of every size.
+     * Parse xdxf file only for dictionary information represented by {@link XDXFDictionary}. Articles are
+     * ignored. This operation should be constantly fast for xdxf of every size.
+     *
      * @param file input file
      * @return dictionary information (name, description, source language, target language)
      * @throws ParseException parse exception is thrown when error occurs while parsing xdxf file
@@ -119,12 +124,14 @@ public interface XDXFParser {
 
     /**
      * Register event listener. For more information about events see {@link XDXFEventListener}
+     *
      * @param listener registered listener
      */
     public void addXDXFEventListener(XDXFEventListener listener);
 
     /**
      * Unregister event listener. For more information about events see {@link XDXFEventListener}
+     *
      * @param listener unregistered listener
      */
     public void removeXDXFEventListener(XDXFEventListener listener);

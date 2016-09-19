@@ -48,7 +48,10 @@ public class ParserUtil {
     /**
      * check for event type which contains name
      *
-     * @throws ParseException
+     * @param eventType event type
+     * @param xmlr reader
+     * @param el element
+     * @return true if element is expected one
      */
     public static boolean checkFor(int eventType, XMLStreamReader xmlr, XDXFElement el) {
         return (xmlr.getEventType() == eventType) && xmlr.hasName() && el.equals(xmlr.getName());
@@ -57,7 +60,9 @@ public class ParserUtil {
     /**
      * check for start element
      *
-     * @throws ParseException
+     * @param xmlr reader
+     * @param el element
+     * @throws ParseException parse exception
      */
     public static void assertStartElement(XMLStreamReader xmlr, XDXFElement el) throws ParseException {
         if (!xmlr.isStartElement() || !xmlr.hasName() || !el.equals(xmlr.getName())) {
@@ -69,7 +74,9 @@ public class ParserUtil {
     /**
      * check for end element
      *
-     * @throws ParseException
+     * @param xmlr reader
+     * @param el element
+     * @throws ParseException parse exception
      */
     public static void assertEndElement(XMLStreamReader xmlr, XDXFElement el) throws ParseException {
         if (!xmlr.isEndElement() || !xmlr.hasName() || !el.equals(xmlr.getName())) {
