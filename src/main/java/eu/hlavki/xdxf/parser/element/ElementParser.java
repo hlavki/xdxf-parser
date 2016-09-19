@@ -26,15 +26,9 @@ import javax.xml.stream.XMLStreamReader;
 /**
  *
  * @author Michal HLavac
- * @param <T>
+ * @param <T> parameter
  */
 public interface ElementParser<T> {
 
-    /**
-     * 
-     * @param xmlr
-     * @return
-     * @throws ParseException
-     */
     T parseElement(XMLStreamReader xmlr) throws ParseException;
 }
