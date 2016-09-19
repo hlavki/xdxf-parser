@@ -22,7 +22,7 @@ package eu.hlavki.xdxf.parser.model;
 
 /**
  * 
- * @author Michal HLavac <hlavki@hlavki.eu>
+ * @author Michal HLavac
  */
 public enum XDXFFormat {
 

@@ -25,7 +25,7 @@ import javax.xml.stream.XMLStreamReader;
 
 /**
  *
- * @author Michal HLavac <hlavki@hlavki.eu>
+ * @author Michal HLavac
  * @param <T>
  */
 public interface ElementParser<T> {

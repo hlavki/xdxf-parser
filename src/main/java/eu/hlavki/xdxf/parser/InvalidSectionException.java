@@ -24,10 +24,6 @@ import javax.xml.namespace.QName;
 import javax.xml.stream.Location;
 import javax.xml.stream.XMLStreamReader;
 
-/**
- *
- * @author hlavki
- */
 public class InvalidSectionException extends ParseException {
 
     private static final long serialVersionUID = 340118410658978864L;

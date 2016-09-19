@@ -24,7 +24,7 @@ import java.util.Map;
 
 /**
  * 
- * @author Michal HLavac <hlavki@hlavki.eu>
+ * @author Michal HLavac
  */
 public class XDXFDictionary {
 

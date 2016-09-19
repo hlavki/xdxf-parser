@@ -77,7 +77,7 @@ import java.io.InputStream;
  *         }
  *     }
  * </pre>
- * @author Michal Hlavac <hlavki@hlavki.eu>
+ * @author Michal Hlavac
  */
 public interface XDXFParser {
 
